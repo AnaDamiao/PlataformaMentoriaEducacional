@@ -29,8 +29,14 @@ class UserMock {
     return { ...newUser }; 
   }
 
-  static async findOne({ where: { email } }) {
-    return users.find(u => u.email === email) || null;
+  static async findOne({ where }) {
+    if (where.email) {
+      return users.find(u => u.email === where.email) || null;
+    }
+    if (where.id) {
+      return users.find(u => u.id === where.id) || null;
+    }
+    return null;
   }
 
   static async findAll() {
