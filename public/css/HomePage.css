@@ -1,0 +1,149 @@
+/* Reset básico */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: Arial, sans-serif;
+}
+
+/* Navbar */
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 5%;
+  background: #2d6cdf;
+  color: white;
+}
+
+.navbar .logo {
+  font-size: 1.5rem;
+  font-weight: bold;
+}
+
+.navbar ul {
+  list-style: none;
+  display: flex;
+  gap: 1rem;
+}
+
+.navbar a {
+  color: white;
+  text-decoration: none;
+  transition: 0.3s;
+}
+
+.navbar a:hover {
+  color: #f0db4f;
+}
+
+.btn-login {
+  background: #f0db4f;
+  padding: 0.4rem 0.8rem;
+  border-radius: 8px;
+  font-weight: bold;
+  color: #333 !important;
+}
+
+/* Hero */
+.hero {
+  background: url("https://images.unsplash.com/photo-1522202176988-66273c2fd55f") no-repeat center/cover;
+  height: 69vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  color: white;
+}
+
+.hero-text {
+  background: rgba(0, 0, 0, 0.7); /* fundo preto semi-transparente */
+  padding: 2rem;
+  border-radius: 12px;           /* bordas arredondadas */
+  max-width: 600px;              /* largura máxima */
+}
+
+.hero-text h1 {
+  font-size: 2.5rem;
+  margin-bottom: 1rem;
+}
+
+.hero-text p {
+  font-size: 1.2rem;
+  margin-bottom: 1.5rem;
+}
+
+
+.btn {
+  display: inline-block;
+  padding: 0.6rem 1.2rem;
+  background: #f0db4f;
+  color: #333;
+  border-radius: 10px;
+  font-weight: bold;
+  text-decoration: none;
+  transition: 0.3s;
+}
+
+.btn:hover {
+  background: #ffd700;
+}
+
+/* Benefícios */
+.benefits {
+  padding: 3rem 10%;
+  text-align: center;
+}
+
+.cards {
+  display: flex;
+  justify-content: center;
+  gap: 1.5rem;
+  margin-top: 2rem;
+}
+
+.card {
+  background: #f5f5f5;
+  padding: 1.5rem;
+  border-radius: 12px;
+  box-shadow: 0px 4px 8px rgba(0,0,0,0.1);
+  flex: 1;
+  max-width: 250px;
+}
+
+/* Mentores */
+.mentores {
+  padding: 3rem 10%;
+  text-align: center;
+  background: #f9f9f9;
+}
+
+.mentor-cards {
+  display: flex;
+  justify-content: center;
+  gap: 2rem;
+  margin-top: 2rem;
+  flex-wrap: wrap;
+}
+
+.mentor-card {
+  background: white;
+  padding: 1.5rem;
+  border-radius: 12px;
+  box-shadow: 0px 4px 8px rgba(0,0,0,0.1);
+  max-width: 200px;
+  text-align: center;
+}
+
+.mentor-card img {
+  border-radius: 50%;
+  margin-bottom: 1rem;
+}
+
+/* Footer */
+footer {
+  background: #2d6cdf;
+  color: white;
+  text-align: center;
+  padding: 1rem;
+}

@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Meu Perfil - EduMentor</title>
+  <link rel="stylesheet" href="MeuPerfil.css">
+</head>
+<body>
+  <!-- Navbar -->
+  <header class="navbar">
+    <div class="logo">EduMentor</div>
+    <nav>
+      <ul>
+        <li><a href="#">Home</a></li>
+        <li><a href="#">Sair</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <!-- Perfil do Usuário -->
+  <section class="perfil-usuario">
+    <div class="usuario-info">
+      <img src="https://img.icons8.com/ios-filled/100/2d6cdf/user-male-circle.png" alt="Foto do usuário">
+      <div class="usuario-detalhes">
+        <h2>Ana Silva</h2>
+        <p><strong>Idade:</strong> 22 anos</p>
+        <p><strong>Áreas de interesse:</strong> Programação, Design</p>
+      </div>
+    </div>
+
+    <!-- Botão Explorar -->
+    <div class="explorar-container">
+      <button class="btn-explorar">🌟 Explorar Mentores</button>
+    </div>
+
+<!-- Agendamentos futuros -->
+<div class="agendamentos">
+  <h3>📅 Próximos agendamentos</h3>
+  <ul id="lista-agendamentos">
+        <!-- Sessão acontecendo agora -->
+    <li class="sessao-card">
+      <span><strong>Agora - 17:00</strong> | Aula de Python com Lucas Mentor</span>
+      <button class="btn-entrar" onclick="entrarSessao()">Entrar na sessão</button>
+    </li>
+    <li class="sessao-card">
+      <span><strong>10/09/2025 - 15:00</strong> | Aula de React com João Mentor</span>
+      <button class="btn-cancelar" onclick="cancelarSessao(this)">Cancelar</button>
+    </li>
+    <li class="sessao-card">
+      <span><strong>15/09/2025 - 19:00</strong> | Aula de UI Design com Maria Mentor</span>
+      <button class="btn-cancelar" onclick="cancelarSessao(this)">Cancelar</button>
+    </li>
+  </ul>
+</div>
+
+
+    <!-- Histórico de sessões -->
+    <div class="historico">
+      <h3>📖 Histórico de sessões</h3>
+      <ul>
+        <li>
+          <div class="sessao-info">
+            <span><strong>01/09/2025 - 18:00</strong> | Aula de JavaScript com Pedro Mentor</span>
+            <span class="estrelas">⭐⭐⭐⭐⭐</span>
+          </div>
+        </li>
+        <li>
+          <div class="sessao-info">
+            <span><strong>28/08/2025 - 14:00</strong> | Aula de UX Design com Carla Mentor</span>
+            <span class="estrelas">⭐⭐⭐☆☆</span>
+          </div>
+        </li>
+      </ul>
+    </div>
+  </section>
+</body>
+</html>

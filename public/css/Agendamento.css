@@ -1,0 +1,134 @@
+body {
+  min-height: 100vh;
+  margin: 0;
+  padding: 0;
+  background: #f9f9f9; /* cor de fundo clara em toda a tela */
+  display: flex;
+  flex-direction: column;
+}
+/* Reset básico */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: Arial, sans-serif;
+}
+
+/* Navbar */
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 5%;
+  background: #2d6cdf;
+  color: white;
+}
+
+.navbar .logo {
+  font-size: 1.5rem;
+  font-weight: bold;
+}
+
+.navbar ul {
+  list-style: none;
+  display: flex;
+  gap: 1rem;
+}
+
+.navbar a {
+  color: white;
+  text-decoration: none;
+  transition: 0.3s;
+}
+
+.navbar a:hover {
+  color: #f0db4f;
+}
+
+.btn-login {
+  background: #f0db4f;
+  padding: 0.4rem 0.8rem;
+  border-radius: 8px;
+  font-weight: bold;
+  color: #333 !important;
+}
+
+.titulo-agendamento {
+  text-align: center;
+  font-size: 1.8rem;
+  font-weight: bold;
+  margin: 2rem 0;
+  color: #333;
+}
+
+.mentor-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 500px); /* 3 cards fixos de 500px */
+  gap: 2.5rem; /* espaçamento entre os cards */
+  justify-content: center; /* centraliza o grid na tela */
+  margin: 2rem auto; /* centraliza o container e dá margem */
+}
+.mentor-card {
+  background: #f5f5f5;
+  border-radius: 16px;
+  padding: 3rem;
+  text-align: center;
+  width: 500px;
+  min-height: 320px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  transition: 0.3s;
+}
+
+.mentor-card img {
+  width: 100px;
+  height: 100px;
+  margin-bottom: 1rem;
+}
+
+.mentor-card h3 {
+  font-size: 1.3rem;
+  margin-bottom: 0.5rem;
+}
+
+.mentor-card p {
+  margin-bottom: 1.5rem;
+  font-weight: 500;
+  color: #555;
+}
+
+.btn-marcar {
+  background: #ffc107; /* amarelo */
+  border: none;
+  padding: 0.8rem 1.5rem;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: 0.3s;
+}
+
+.btn-marcar:hover {
+  background: #e0a800;
+}
+
+/* Responsivo */
+@media (max-width: 1600px) {
+  .mentor-grid {
+    grid-template-columns: repeat(3, 1fr); /* cards responsivos em telas menores */
+    justify-content: center;
+  }
+}
+
+@media (max-width: 1024px) {
+  .mentor-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 600px) {
+  .mentor-grid {
+    grid-template-columns: 1fr;
+  }
+}

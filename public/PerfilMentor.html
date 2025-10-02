@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Perfil do Mentor - Calendário</title>
+  <link rel="stylesheet" href="PerfilMentor.css">
+</head>
+<body>
+  <!-- Navbar -->
+  <header class="navbar">
+    <div class="logo">EduMentor</div>
+    <nav>
+      <ul>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="#">Meu Perfil</a></li>
+        <li><a href="#">Sair</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <!-- Conteúdo -->
+  <section class="perfil-mentor">
+    <!-- Título do perfil -->
+    <h1 class="titulo-secao">Perfil do Mentor <br></h1>
+
+    <div class="mentor-info">
+      <img src="https://img.icons8.com/color/96/000000/teacher.png" alt="Mentor">
+      <div class="mentor-detalhes">
+        <h2>João Silva</h2>
+        <p>Idade: 32 anos</p>
+        <p>Área: Matemática</p>
+      </div>
+    </div>
+
+    <!-- Título da agenda -->
+    <h2 class="titulo-secao">Agende sua Sessão <br></h2>
+
+    <!-- Calendário -->
+    <div class="calendar-container">
+      <div class="calendar-header">
+        <button id="prevMonth">&lt;</button>
+        <h2 id="monthYear"></h2>
+        <button id="nextMonth">&gt;</button>
+      </div>
+      <div class="calendar-grid" id="calendarGrid"></div>
+    </div>
+  </section>
+
+  <!-- Modal para agendamento -->
+  <div class="modal" id="scheduleModal">
+    <div class="modal-content">
+      <span class="close" id="closeModal">&times;</span>
+      <h3 id="selectedDate"></h3>
+      <p>Selecione um horário para agendar:</p>
+      <div class="horarios" id="horariosContainer"></div>
+    </div>
+  </div>
+
+  <!-- Popup de confirmação -->
+  <div id="popupConfirmacao" class="popup">✅ Sessão agendada com sucesso!</div>
+
+  <script src="PerfilMentor.js"></script>
+</body>
+</html>
