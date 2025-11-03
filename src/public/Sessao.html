@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Sessão - EduMentor</title>
-  <link rel="stylesheet" href="Sessao.css">
+  <link rel="stylesheet" href="./css/Sessao.css">
 </head>
 <body>
   <!-- Navbar -->
@@ -74,48 +74,48 @@
     }
 
     const botaoEncerrar = document.getElementById('encerrar-sessao');
-const modal = document.getElementById('avaliacao-modal');
-const fecharModal = document.querySelector('.modal .close');
-const estrelas = document.querySelectorAll('.estrelas span');
-let avaliacao = 0;
+    const modal = document.getElementById('avaliacao-modal');
+    const fecharModal = document.querySelector('.modal .close');
+    const estrelas = document.querySelectorAll('.estrelas span');
+    let avaliacao = 0;
 
-// Abrir modal ao clicar em encerrar sessão
-botaoEncerrar.addEventListener('click', () => {
-  modal.style.display = 'flex';
-});
 
-// Fechar modal
-fecharModal.addEventListener('click', () => {
-  modal.style.display = 'none';
-});
+    botaoEncerrar.addEventListener('click', () => {
+      modal.style.display = 'flex';
+    });
 
-// Selecionar estrelas
-estrelas.forEach(estrela => {
-  estrela.addEventListener('mouseover', () => {
-    estrelas.forEach(s => s.classList.remove('hover'));
-    for (let i = 0; i < estrela.dataset.value; i++) {
-      estrelas[i].classList.add('hover');
-    }
-  });
+    // Fechar modal
+    fecharModal.addEventListener('click', () => {
+      modal.style.display = 'none';
+    });
 
-  estrela.addEventListener('mouseout', () => {
-    estrelas.forEach(s => s.classList.remove('hover'));
-  });
+    // Selecionar estrelas
+    estrelas.forEach(estrela => {
+      estrela.addEventListener('mouseover', () => {
+        estrelas.forEach(s => s.classList.remove('hover'));
+        for (let i = 0; i < estrela.dataset.value; i++) {
+          estrelas[i].classList.add('hover');
+        }
+      });
 
-  estrela.addEventListener('click', () => {
-    avaliacao = estrela.dataset.value;
-    estrelas.forEach(s => s.classList.remove('selected'));
-    for (let i = 0; i < avaliacao; i++) {
-      estrelas[i].classList.add('selected');
-    }
-  });
-});
+      estrela.addEventListener('mouseout', () => {
+        estrelas.forEach(s => s.classList.remove('hover'));
+      });
 
-// Enviar avaliação
-document.getElementById('enviar-avaliacao').addEventListener('click', () => {
-  alert(`Obrigado pela sua avaliação de ${avaliacao} estrela(s)!`);
-  modal.style.display = 'none';
-});
+      estrela.addEventListener('click', () => {
+        avaliacao = estrela.dataset.value;
+        estrelas.forEach(s => s.classList.remove('selected'));
+        for (let i = 0; i < avaliacao; i++) {
+          estrelas[i].classList.add('selected');
+        }
+      });
+    });
+
+    // Enviar avaliação
+    document.getElementById('enviar-avaliacao').addEventListener('click', () => {
+      alert(`Obrigado pela sua avaliação de ${avaliacao} estrela(s)!`);
+      modal.style.display = 'none';
+    });
 
   </script>
 </body>

@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cadastro - EduMentor</title>
+  <link rel="stylesheet" href="./css/Cadastro.css">
+</head>
+<body>
+  <!-- Navbar -->
+  <header class="navbar">
+    <div class="logo"><a href="/">EduMentor</a></li></div>
+    <nav>
+      <ul>
+           <ul>
+        <li><a href="/">Home</a></li>
+        <li><a href="/login">Entrar</a></li>
+      </ul>
+      </ul>
+    </nav>
+  </header>
+
+  <!-- Cadastro -->
+  <section class="cadastro">
+    <div class="form-card">
+      <h2>Crie sua conta</h2>
+      <form id="cadastroForm">
+        <div class="form-group">
+          <label for="nome">Nome completo</label>
+          <input type="text" id="nome" placeholder="Digite seu nome" required>
+        </div>
+
+        <div class="form-group">
+          <label for="email">E-mail</label>
+          <input type="email" id="email" placeholder="Digite seu e-mail" required>
+        </div>
+
+        <div class="form-group">
+          <label for="senha">Senha</label>
+          <input type="password" id="senha" placeholder="Digite sua senha" required>
+        </div>
+
+        <div class="form-group">
+          <label for="confirma-senha">Confirme sua senha</label>
+          <input type="password" id="confirma-senha" placeholder="Confirme sua senha" required>
+        </div>
+
+        <div class="form-group">
+          <label>Tipo de usuário</label>
+          <div class="radio-group">
+            <label><input class="radio-group__select" type="radio" name="tipo" value="estudante" required> Estudante</label>
+            <label><input class="radio-group__select" type="radio" name="tipo" value="mentor" required> Mentor</label>
+          </div>
+        </div>
+
+                <!-- Campo Série Escolar (somente para estudante) -->
+        <div class="form-group" id="serieEscolarGroup" style="display: none;">
+          <label for="serieEscolar">Série escolar</label>
+          <input type="text" id="serieEscolar" placeholder="Ex: 2º ano do ensino médio">
+        </div>
+
+        <!-- Campo Área de Interesse (somente para estudante) -->
+        <div class="form-group" id="areaInteresseGroup" style="display: none;">
+          <label for="areaInteresse">Área de interesse</label>
+          <input type="text" id="areaInteresse" placeholder="Ex: Matemática, Programação...">
+        </div>
+
+        <!-- Campo Área de Conhecimento (somente para mentor) -->
+        <div class="form-group" id="areaConhecimentoGroup" style="display: none;">
+          <label for="areaConhecimento">Área de conhecimento</label>
+          <input type="text" id="areaConhecimento" placeholder="Ex: Física, Design...">
+        </div>
+
+        <button type="submit" class="btn">Cadastrar</button>
+      </form>
+    </div>
+  </section>
+
+<script>
+  const form = document.getElementById("cadastroForm");
+  const tipoInputs = document.querySelectorAll('input[name="tipo"]');
+
+  const serieEscolarGroup = document.getElementById("serieEscolarGroup");
+  const areaInteresseGroup = document.getElementById("areaInteresseGroup");
+  const areaConhecimentoGroup = document.getElementById("areaConhecimentoGroup");
+
+  tipoInputs.forEach((input) => {
+    input.addEventListener("change", () => {
+      if (input.value === "estudante") {
+        serieEscolarGroup.style.display = "block";
+        areaInteresseGroup.style.display = "none";
+        areaConhecimentoGroup.style.display = "none";
+      } else if (input.value === "mentor") {
+        serieEscolarGroup.style.display = "none";
+        areaInteresseGroup.style.display = "none";
+        areaConhecimentoGroup.style.display = "block";
+      }
+    });
+  });
+
+  form.addEventListener("submit", (e) => {
+    e.preventDefault();
+
+    const nome = document.getElementById("nome").value.trim();
+    const email = document.getElementById("email").value.trim();
+    const senha = document.getElementById("senha").value.trim();
+    const confirmaSenha = document.getElementById("confirma-senha").value.trim();
+    const role = document.querySelector('input[name="tipo"]:checked')?.value;
+
+    if (senha !== confirmaSenha) {
+      alert("As senhas não coincidem!");
+      return;
+    }
+
+    const userData = { nome, email, senha, role };
+
+    if (role === "estudante") {
+      userData.serieEscolar = document.getElementById("serieEscolar").value.trim();
+    } else if (role === "mentor") {
+      userData.areaConhecimento = document.getElementById("areaConhecimento").value.trim();
+    }
+
+    localStorage.setItem("cadastro-parcial", JSON.stringify(userData));
+
+    window.location.href = "/interesse";
+  });
+</script>
+
+
+</body>
+</html>

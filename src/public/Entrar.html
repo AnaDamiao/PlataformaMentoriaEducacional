@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login - EduMentor</title>
+  <link rel="stylesheet" href="./css/Entrar.css">
+</head>
+<body>
+  <!-- Navbar -->
+  <header class="navbar">
+    <div class="logo"><a href="/">EduMentor</a></li></div>
+    <nav>
+      <ul>
+        <li><a href="/">Home</a></li>
+        <li><a href="/cadastro" class="btn-login">Cadastre-se</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <!-- Login -->
+  <section class="login">
+    <div class="form-card">
+      <h2>Entrar na sua conta</h2>
+      <form id="loginForm">
+        <div class="form-group">
+          <label for="email">E-mail</label>
+          <input type="email" id="email" placeholder="Digite seu e-mail" required>
+        </div>
+
+        <div class="form-group">
+          <label for="senha">Senha</label>
+          <input type="password" id="senha" placeholder="Digite sua senha" required>
+        </div>
+
+        <button type="submit" class="btn">Entrar</button>
+      </form>
+
+      <p class="signup-text">
+        Não tem uma conta? <a href="/cadastro">Cadastre-se aqui</a>
+      </p>
+    </div>
+  </section>
+
+<script>
+  const form = document.getElementById("loginForm");
+
+  form.addEventListener("submit", async (e) => {
+    e.preventDefault();
+
+    const email = document.getElementById("email").value.trim();
+    const senha = document.getElementById("senha").value.trim();
+
+    if (!email || !senha) {
+      alert("Preencha todos os campos!");
+      return;
+    }
+
+    try {
+      const response = await fetch("http://localhost:3000/auth/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email, senha })
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        alert(data.error || "Falha ao fazer login");
+        return;
+      }
+
+      // localStorage
+      localStorage.setItem("token", data.token);
+      localStorage.setItem("usuarioLogado", JSON.stringify(data.user));
+
+      alert("Login realizado com sucesso!");
+      window.location.href = "/sessao";
+    } catch (error) {
+      console.error("Erro no login:", error);
+      alert("Erro de conexão com o servidor.");
+    }
+  });
+</script>
+
+</body>
+</html>

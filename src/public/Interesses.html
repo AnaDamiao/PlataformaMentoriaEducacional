@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Seleção de Interesses - EduMentor</title>
-  <link rel="stylesheet" href="Interesses.css">
+  <link rel="stylesheet" href="./css/Interesses.css">
 </head>
 <body>
   <!-- Navbar -->
@@ -107,6 +107,44 @@
      
   </section>
 
+<script>
+  const btnSalvar = document.querySelector(".btn");
+
+  btnSalvar.addEventListener("click", async () => {
+    const userData = JSON.parse(localStorage.getItem("cadastro-parcial"));
+    if (!userData) {
+      alert("Dados do cadastro não encontrados. Volte e preencha novamente.");
+      window.location.href = "Cadastro.html";
+      return;
+    }
+
+    const interesses = Array.from(document.querySelectorAll('input[type="checkbox"]:checked'))
+      .map((checkbox) => checkbox.value);
+
+    userData.areaInteresse = interesses;
+
+    try {
+      const response = await fetch("http://localhost:3000/auth/register", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(userData),
+      });
+
+      const data = await response.json();
+
+      if (response.ok) {
+        alert("Cadastro concluído com sucesso!");
+        localStorage.removeItem("cadastro-parcial");
+        window.location.href = "/login";
+      } else {
+        alert("Erro: " + (data.error || "Falha ao cadastrar usuário."));
+      }
+    } catch (err) {
+      console.error("Erro ao cadastrar:", err);
+      alert("Erro ao conectar com o servidor.");
+    }
+  });
+</script>
 
 
  

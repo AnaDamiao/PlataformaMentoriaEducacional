@@ -103,7 +103,7 @@ body {
 .radio-group {
   display: flex;
   gap: 1.5rem;
-  margin-top: 0.5rem;
+  margin: 1.5rem 0;
 }
 
 .btn {
@@ -121,4 +121,8 @@ body {
 
 .btn:hover {
   background: #ffd700;
+}
+
+.radio-group__select {
+  width: 13px !important;
 }
