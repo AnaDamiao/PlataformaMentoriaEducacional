@@ -23,131 +23,56 @@
 
   <!-- Tela de Agendamento -->
   <section class="agendamento">
-  <h2 class="titulo-agendamento">Escolha um mentor para agendar sua sessão</h2>
-  <div class="mentor-grid">
-    <!-- Mentor 1 -->
-    <div class="mentor-card">
-      <img src="https://img.icons8.com/color/96/000000/teacher.png" alt="Mentor 1">
-      <h3>João Silva</h3>
-      <p>Matemática</p>
-      <button class="btn-marcar">Marcar Sessão</button>
+    <h2 class="titulo-agendamento">Escolha um mentor para agendar sua sessão</h2>
+    <div class="mentor-grid" id="mentorGrid">
+      <!-- Mentores cadastrados serão inseridos aqui via JS -->
     </div>
-
-    <!-- Mentor 2 -->
-    <div class="mentor-card">
-      <img src="https://img.icons8.com/color/96/000000/teacher.png" alt="Mentor 2">
-      <h3>Maria Souza</h3>
-      <p>Inglês</p>
-      <button class="btn-marcar">Marcar Sessão</button>
+    <div id="noMentoresMsg" class="no-mentores" style="display:none;">
+      <svg xmlns="http://www.w3.org/2000/svg" width="120" height="120" fill="#2d6cdf" viewBox="0 0 24 24">
+        <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>
+      </svg>
+      <h3>Ops! Parece que ainda não há mentores cadastrados.</h3>
+      <p>Volte mais tarde ou cadastre-se como mentor para aparecer aqui.</p>
     </div>
-
-    <!-- Mentor 3 -->
-    <div class="mentor-card">
-      <img src="https://img.icons8.com/color/96/000000/teacher.png" alt="Mentor 3">
-      <h3>Carlos Lima</h3>
-      <p>Programação</p>
-      <button class="btn-marcar">Marcar Sessão</button>
-    </div>
-
-    <!-- Mentor 4 -->
-    <div class="mentor-card">
-      <img src="https://img.icons8.com/color/96/000000/teacher.png" alt="Mentor 4">
-      <h3>Ana Pereira</h3>
-      <p>Ciências</p>
-      <button class="btn-marcar">Marcar Sessão</button>
-    </div>
-
-    <!-- Mentor 5 -->
-    <div class="mentor-card">
-      <img src="https://img.icons8.com/color/96/000000/teacher.png" alt="Mentor 5">
-      <h3>Lucas Costa</h3>
-      <p>História</p>
-      <button class="btn-marcar">Marcar Sessão</button>
-    </div>
-
-    <!-- Mentor 6 -->
-    <div class="mentor-card">
-      <img src="https://img.icons8.com/color/96/000000/teacher.png" alt="Mentor 6">
-      <h3>Beatriz Martins</h3>
-      <p>Design</p>
-      <button class="btn-marcar">Marcar Sessão</button>
-    </div>
-
-    <!-- Mentor 7 -->
-    <div class="mentor-card">
-      <img src="https://img.icons8.com/color/96/000000/teacher.png" alt="Mentor 7">
-      <h3>Rafael Almeida</h3>
-      <p>Física</p>
-      <button class="btn-marcar">Marcar Sessão</button>
-    </div>
-
-    <!-- Mentor 8 -->
-    <div class="mentor-card">
-      <img src="https://img.icons8.com/color/96/000000/teacher.png" alt="Mentor 8">
-      <h3>Juliana Ferreira</h3>
-      <p>Química</p>
-      <button class="btn-marcar">Marcar Sessão</button>
-    </div>
-
-    <!-- Mentor 9 -->
-    <div class="mentor-card">
-      <img src="https://img.icons8.com/color/96/000000/teacher.png" alt="Mentor 9">
-      <h3>Gabriel Rocha</h3>
-      <p>Biologia</p>
-      <button class="btn-marcar">Marcar Sessão</button>
-    </div>
-
-    <!-- Mentor 10 -->
-    <div class="mentor-card">
-      <img src="https://img.icons8.com/color/96/000000/teacher.png" alt="Mentor 10">
-      <h3>Carolina Lima</h3>
-      <p>Arte</p>
-      <button class="btn-marcar">Marcar Sessão</button>
-    </div>
-
-    <!-- Mentor 11 -->
-    <div class="mentor-card">
-      <img src="https://img.icons8.com/color/96/000000/teacher.png" alt="Mentor 11">
-      <h3>Fernando Gomes</h3>
-      <p>Geografia</p>
-      <button class="btn-marcar">Marcar Sessão</button>
-    </div>
-
-    <!-- Mentor 12 -->
-    <div class="mentor-card">
-      <img src="https://img.icons8.com/color/96/000000/teacher.png" alt="Mentor 12">
-      <h3>Mariana Santos</h3>
-      <p>Música</p>
-      <button class="btn-marcar">Marcar Sessão</button>
-    </div>
-
-    <!-- Mentor 13 -->
-    <div class="mentor-card">
-      <img src="https://img.icons8.com/color/96/000000/teacher.png" alt="Mentor 13">
-      <h3>Diego Ribeiro</h3>
-      <p>Inglês</p>
-      <button class="btn-marcar">Marcar Sessão</button>
-    </div>
-
-    <!-- Mentor 14 -->
-    <div class="mentor-card">
-      <img src="https://img.icons8.com/color/96/000000/teacher.png" alt="Mentor 14">
-      <h3>Paula Nunes</h3>
-      <p>Programação</p>
-      <button class="btn-marcar">Marcar Sessão</button>
-    </div>
-
-    <!-- Mentor 15 -->
-    <div class="mentor-card">
-      <img src="https://img.icons8.com/color/96/000000/teacher.png" alt="Mentor 15">
-      <h3>Renato Oliveira</h3>
-      <p>Matemática</p>
-      <button class="btn-marcar">Marcar Sessão</button>
-    </div>
-  </div>
   </section>
 
+  <script>
+    const mentorGrid = document.getElementById("mentorGrid");
+    const noMentoresMsg = document.getElementById("noMentoresMsg");
 
-  <script src="script.js"></script>
+    async function carregarMentores() {
+      try {
+        const response = await fetch("http://localhost:3000/auth/users");
+        const usuarios = await response.json();
+
+        const mentores = usuarios.filter(u => u.role === "mentor");
+
+        if (!mentores || mentores.length === 0) {
+          noMentoresMsg.style.display = "flex";
+          return;
+        }
+
+        mentores.forEach(mentor => {
+          const card = document.createElement("div");
+          card.className = "mentor-card";
+          card.innerHTML = `
+            <img src="https://img.icons8.com/color/96/000000/teacher.png" alt="${mentor.nome}">
+            <h3>${mentor.nome}</h3>
+            <p>${mentor.areaConhecimento ? mentor.areaConhecimento.join(", ") : "Sem área definida"}</p>
+            <p><small>Disponibilidade: ${mentor.disponibilidade || "Não definida"}</small></p>
+            <button class="btn-marcar">Marcar Sessão</button>
+          `;
+          mentorGrid.appendChild(card);
+        });
+
+      } catch (err) {
+        console.error("Erro ao carregar mentores:", err);
+        noMentoresMsg.textContent = "Erro ao carregar mentores. Tente novamente mais tarde.";
+        noMentoresMsg.style.display = "block";
+      }
+    }
+
+    carregarMentores();
+  </script>
 </body>
 </html>
