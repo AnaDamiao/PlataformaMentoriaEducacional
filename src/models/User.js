@@ -2,13 +2,6 @@ const { DataTypes } = require("sequelize");
 const sequelize = require("../config/database");
 const bcrypt = require("bcrypt");
 
-// TODO: USAR BANCO QUANDO ESTIVER PRONTO
-// const User = sequelize.define("User", {
-//   nome: { type: DataTypes.STRING, allowNull: false },
-//   email: { type: DataTypes.STRING, unique: true, allowNull: false },
-//   senha: { type: DataTypes.STRING, allowNull: false },
-//   role: { type: DataTypes.ENUM("estudante", "mentor"), allowNull: false }
-// });
 
 let users = [];
 
@@ -45,6 +38,3 @@ class UserMock {
 }
 
 module.exports = UserMock;
-
-
-// module.exports = User;

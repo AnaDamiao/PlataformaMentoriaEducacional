@@ -126,3 +126,39 @@ body {
 .radio-group__select {
   width: 13px !important;
 }
+
+.disponibilidade-inputs {
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+  background: #f7f8ff;
+  padding: 1rem;
+  border: 1px solid #d0d7f0;
+  border-radius: 10px;
+  margin-top: 0.5rem;
+}
+
+.disponibilidade-inputs label {
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 0.2rem;
+}
+
+.disponibilidade-inputs input[type="date"],
+.disponibilidade-inputs input[type="time"] {
+  width: 100%;
+  padding: 0.7rem;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  outline: none;
+  transition: 0.3s;
+  background-color: #fff;
+}
+
+.disponibilidade-inputs input[type="date"]:focus,
+.disponibilidade-inputs input[type="time"]:focus {
+  border-color: #2d6cdf;
+  box-shadow: 0px 0px 6px rgba(45,108,223,0.4);
+}
+
+

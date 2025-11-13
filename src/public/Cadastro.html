@@ -53,22 +53,24 @@
           </div>
         </div>
 
-                <!-- Campo Série Escolar (somente para estudante) -->
+        <!-- Campo Série Escolar (somente para estudante) -->
         <div class="form-group" id="serieEscolarGroup" style="display: none;">
           <label for="serieEscolar">Série escolar</label>
           <input type="text" id="serieEscolar" placeholder="Ex: 2º ano do ensino médio">
         </div>
 
-        <!-- Campo Área de Interesse (somente para estudante) -->
-        <div class="form-group" id="areaInteresseGroup" style="display: none;">
-          <label for="areaInteresse">Área de interesse</label>
-          <input type="text" id="areaInteresse" placeholder="Ex: Matemática, Programação...">
-        </div>
+        <div class="form-group" id="horarioDisponivelGroup" style="display: none;">
+          <label>Disponibilidade</label>
+          <div class="disponibilidade-inputs">
+            <label for="dataDisponivel">Dia disponível</label>
+            <input type="date" id="dataDisponivel" required>
 
-        <!-- Campo Área de Conhecimento (somente para mentor) -->
-        <div class="form-group" id="areaConhecimentoGroup" style="display: none;">
-          <label for="areaConhecimento">Área de conhecimento</label>
-          <input type="text" id="areaConhecimento" placeholder="Ex: Física, Design...">
+            <label for="horaInicio">Hora de início</label>
+            <input type="time" id="horaInicio" required>
+
+            <label for="horaFim">Hora de término</label>
+            <input type="time" id="horaFim" required>
+          </div>
         </div>
 
         <button type="submit" class="btn">Cadastrar</button>
@@ -76,55 +78,82 @@
     </div>
   </section>
 
-<script>
-  const form = document.getElementById("cadastroForm");
-  const tipoInputs = document.querySelectorAll('input[name="tipo"]');
+  <script>
+    const form = document.getElementById("cadastroForm");
+    const tipoInputs = document.querySelectorAll('input[name="tipo"]');
+    const serieEscolarGroup = document.getElementById("serieEscolarGroup");
+    const horarioDisponivelGroup = document.getElementById("horarioDisponivelGroup");
 
-  const serieEscolarGroup = document.getElementById("serieEscolarGroup");
-  const areaInteresseGroup = document.getElementById("areaInteresseGroup");
-  const areaConhecimentoGroup = document.getElementById("areaConhecimentoGroup");
+    tipoInputs.forEach((input) => {
+      input.addEventListener("change", (e) => {
+        const selected = e.target.value;
 
-  tipoInputs.forEach((input) => {
-    input.addEventListener("change", () => {
-      if (input.value === "estudante") {
-        serieEscolarGroup.style.display = "block";
-        areaInteresseGroup.style.display = "none";
-        areaConhecimentoGroup.style.display = "none";
-      } else if (input.value === "mentor") {
-        serieEscolarGroup.style.display = "none";
-        areaInteresseGroup.style.display = "none";
-        areaConhecimentoGroup.style.display = "block";
-      }
+        if (selected === "estudante") {
+          serieEscolarGroup.style.display = "block";
+          horarioDisponivelGroup.style.display = "none";
+
+          document.getElementById("dataDisponivel").required = false;
+          document.getElementById("horaInicio").required = false;
+          document.getElementById("horaFim").required = false;
+
+          document.getElementById("serieEscolar").required = true;
+
+        } else if (selected === "mentor") {
+          serieEscolarGroup.style.display = "none";
+          horarioDisponivelGroup.style.display = "block";
+
+          document.getElementById("dataDisponivel").required = true;
+          document.getElementById("horaInicio").required = true;
+          document.getElementById("horaFim").required = true;
+
+          document.getElementById("serieEscolar").required = false;
+        }
+      });
     });
-  });
 
-  form.addEventListener("submit", (e) => {
-    e.preventDefault();
+    form.addEventListener("submit", (e) => {
+      e.preventDefault();
 
-    const nome = document.getElementById("nome").value.trim();
-    const email = document.getElementById("email").value.trim();
-    const senha = document.getElementById("senha").value.trim();
-    const confirmaSenha = document.getElementById("confirma-senha").value.trim();
-    const role = document.querySelector('input[name="tipo"]:checked')?.value;
+      const nome = document.getElementById("nome").value.trim();
+      const email = document.getElementById("email").value.trim();
+      const senha = document.getElementById("senha").value.trim();
+      const confirmaSenha = document.getElementById("confirma-senha").value.trim();
+      const role = document.querySelector('input[name="tipo"]:checked')?.value;
 
-    if (senha !== confirmaSenha) {
-      alert("As senhas não coincidem!");
-      return;
-    }
+      if (senha !== confirmaSenha) {
+        alert("As senhas não coincidem!");
+        return;
+      }
 
-    const userData = { nome, email, senha, role };
+      const userData = { nome, email, senha, role };
 
-    if (role === "estudante") {
-      userData.serieEscolar = document.getElementById("serieEscolar").value.trim();
-    } else if (role === "mentor") {
-      userData.areaConhecimento = document.getElementById("areaConhecimento").value.trim();
-    }
+      if (role === "estudante") {
+        const serieEscolar = document.getElementById("serieEscolar").value.trim();
+        if (!serieEscolar) {
+          alert("Por favor, informe sua série escolar.");
+          return;
+        }
+        userData.serieEscolar = serieEscolar;
+        userData.areaInteresse = [];
+      }
 
-    localStorage.setItem("cadastro-parcial", JSON.stringify(userData));
+      if (role === "mentor") {
+        const data = document.getElementById("dataDisponivel").value;
+        const horaInicio = document.getElementById("horaInicio").value;
+        const horaFim = document.getElementById("horaFim").value;
+        if (!data || !horaInicio || !horaFim) {
+          alert("Por favor, preencha a data e horário disponíveis.");
+          return;
+        }
+        userData.disponibilidade = `${data} das ${horaInicio} às ${horaFim}`;
+        userData.areaConhecimento = [];
+      }
 
-    window.location.href = "/interesse";
-  });
-</script>
+      localStorage.setItem("cadastro-parcial", JSON.stringify(userData));
+      
+      window.location.href = "/interesse";
+    });
+  </script>
 
 
 </body>

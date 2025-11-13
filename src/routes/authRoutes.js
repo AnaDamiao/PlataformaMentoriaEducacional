@@ -6,7 +6,6 @@ const User = require("../models/User");
 router.post("/register", register);
 router.post("/login", login);
 
-// DEBUG: listar usuários (não proteja em prod)
 router.get("/users", async (req, res) => {
   const users = await User.findAll();
   const sanitized = users.map(u => {

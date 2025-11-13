@@ -9,12 +9,12 @@
 <body>
   <!-- Navbar -->
   <header class="navbar">
-    <div class="logo">EduMentor</div>
+    <div class="logo"><a href="/">EduMentor</a></div>
     <nav>
       <ul>
          <ul>
-        <li><a href="#">Home</a></li>
-        <li><a href="#">Entrar</a></li>
+        <li><a href="/">Home</a></li>
+        <li><a href="/login">Entrar</a></li>
       </ul>
       </ul>
     </nav>
@@ -118,10 +118,16 @@
       return;
     }
 
-    const interesses = Array.from(document.querySelectorAll('input[type="checkbox"]:checked'))
+    // Pega as áreas selecionadas
+    const selecionadas = Array.from(document.querySelectorAll('input[type="checkbox"]:checked'))
       .map((checkbox) => checkbox.value);
 
-    userData.areaInteresse = interesses;
+    // Define áreas de interesse ou conhecimento conforme o tipo
+    if (userData.role === "estudante") {
+      userData.areaInteresse = selecionadas;
+    } else if (userData.role === "mentor") {
+      userData.areaConhecimento = selecionadas;
+    }
 
     try {
       const response = await fetch("http://localhost:3000/auth/register", {
@@ -147,6 +153,5 @@
 </script>
 
 
- 
 </body>
 </html>
