@@ -119,47 +119,7 @@
 
     <script src="./js/Interesses.js"></script>
 
-  btnSalvar.addEventListener("click", async () => {
-    const userData = JSON.parse(localStorage.getItem("cadastro-parcial"));
-    if (!userData) {
-      alert("Dados do cadastro não encontrados. Volte e preencha novamente.");
-      window.location.href = "Cadastro.html";
-      return;
-    }
-
-    // Pega as áreas selecionadas
-    const selecionadas = Array.from(document.querySelectorAll('input[type="checkbox"]:checked'))
-      .map((checkbox) => checkbox.value);
-
-    // Define áreas de interesse ou conhecimento conforme o tipo
-    if (userData.role === "estudante") {
-      userData.areaInteresse = selecionadas;
-    } else if (userData.role === "mentor") {
-      userData.areaConhecimento = selecionadas;
-    }
-
-    try {
-      const response = await fetch("http://localhost:3000/auth/register", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(userData),
-      });
-
-      const data = await response.json();
-
-      if (response.ok) {
-        alert("Cadastro concluído com sucesso!");
-        localStorage.removeItem("cadastro-parcial");
-        window.location.href = "/login";
-      } else {
-        alert("Erro: " + (data.error || "Falha ao cadastrar usuário."));
-      }
-    } catch (err) {
-      console.error("Erro ao cadastrar:", err);
-      alert("Erro ao conectar com o servidor.");
-    }
-  });
-</script>
+ 
 
 
 </body>
