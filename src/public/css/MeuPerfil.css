@@ -1,182 +1,248 @@
 /* Reset básico */
 * {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-  font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
 }
 
+/* BODY */
 body {
-  background: #f9f9f9;
+    background: #f9f9f9;
+    min-height: 100vh;
 }
 
 /* Navbar */
 .navbar {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 1rem 5%;
-  background: #2d6cdf;
-  color: white;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem 5%;
+    background: #2d6cdf;
+    color: white;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 1000;
 }
 
 .navbar .logo {
-  font-size: 1.5rem;
-  font-weight: bold;
+    font-size: 1.5rem;
+    font-weight: bold;
 }
 
 .navbar ul {
-  list-style: none;
-  display: flex;
-  gap: 1rem;
+    list-style: none;
+    display: flex;
+    gap: 1rem;
 }
 
 .navbar a {
-  color: white;
-  text-decoration: none;
-  transition: 0.3s;
+    color: white;
+    text-decoration: none;
+    transition: 0.3s;
 }
 
 .navbar a:hover {
-  color: #f0db4f;
+    color: #f0db4f;
 }
 
-/* Perfil do Usuário */
-.perfil-usuario {
-  max-width: 1000px;
-  margin: 2rem auto;
-  padding: 1rem;
+/* Container principal do perfil */
+main.container {
+    max-width: 900px;
+    margin: 100px auto 2rem auto; /* espaço do topo para navbar fixa */
+    padding: 0 1rem;
 }
 
-.usuario-info {
-  display: flex;
-  align-items: center;
-  gap: 1rem;
-  margin-bottom: 1rem;
-  background: #fff;
-  padding: 1rem;
-  border-radius: 12px;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+/* Card do Perfil */
+.perfil-card {
+    background: #fff;
+    border-radius: 12px;
+    padding: 2rem 1.5rem;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    text-align: center;
 }
 
-.usuario-info img {
-  border-radius: 50%;
-  width: 96px;
-  height: 96px;
+/* Título do card */
+.perfil-card h2 {
+    color: #2d6cdf;
+    font-size: 2rem;
+    margin-bottom: 2rem;
 }
 
-.usuario-detalhes h2 {
-  margin-bottom: 0.3rem;
+/* Foto de perfil */
+.foto-perfil {
+    width: 120px;
+    height: 120px;
+    margin: 0 auto 1.5rem auto;
+    cursor: pointer;
+    position: relative;
+    border-radius: 50%;
+    overflow: hidden;
+    box-shadow: 0 0 0 4px #2d6cdf, 0 0 0 6px #fff; /* Borda dupla */
 }
 
-.usuario-detalhes p {
-  margin-bottom: 0.2rem;
-  color: #555;
+.foto-perfil img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 50%;
 }
 
-/* Botão Explorar alinhado à esquerda */
-.explorar-container {
-  margin: 1rem 0 2rem 0;
+/* Info principal (nome, tipo de usuário) */
+.usuario-info-principal {
+    margin-bottom: 2rem;
 }
 
-.btn-explorar {
-  background: #f0db4f;
-  color: #333;
-  padding: 0.8rem 1.5rem;
-  border: none;
-  border-radius: 10px;
-  font-weight: bold;
-  font-size: 1rem;
-  cursor: pointer;
-  transition: 0.3s;
-  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+.nome-usuario {
+    font-size: 1.8rem;
+    font-weight: bold;
+    color: #333;
 }
 
-.btn-explorar:hover {
-  background: #ffd700;
+.tipo-usuario {
+    font-size: 1rem;
+    color: #555;
+    margin-top: 0.2rem;
+}
+
+/* Card de informações gerais */
+.info-card {
+    background: #fff;
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+    margin-bottom: 2rem;
+    text-align: left;
+}
+
+.info-card-title {
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: #2d6cdf; /* Azul */
+    margin-bottom: 15px;
+}
+
+.info-card p {
+    margin-bottom: 0.8rem;
+    font-size: 1rem;
+    color: #444;
+}
+
+.info-card p strong {
+    color: #333;
 }
 
 /* Blocos de agendamento e histórico */
 .agendamentos, .historico {
-  background: #fff;
-  padding: 1.5rem;
-  margin-bottom: 1.5rem;
-  border-radius: 12px;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    background: #fff;
+    padding: 1.5rem;
+    margin-bottom: 1.5rem;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    text-align: left;
 }
 
 .agendamentos h3, .historico h3 {
-  margin-bottom: 1rem;
-  color: #2d6cdf;
+    margin-bottom: 1rem;
+    color: #2d6cdf;
 }
 
 .agendamentos ul, .historico ul {
-  list-style: none;
+    list-style: none;
 }
 
 .agendamentos li, .historico li {
-  margin-bottom: 0.8rem;
-  padding: 0.8rem;
-  background: #f9f9f9;
-  border-radius: 8px;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+    margin-bottom: 0.8rem;
+    padding: 0.8rem 1rem;
+    background: #f9f9f9;
+    border-radius: 8px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.05);
 }
 
 /* Sessões com estrelas */
 .sessao-info {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 }
 
 .estrelas {
-  font-size: 1.1rem;
-  color: #f0db4f; /* Amarelo para as estrelas */
+    font-size: 1.1rem;
+    color: #f0db4f; /* Amarelo */
 }
 
 /* Sessões - estilo dos cards */
 .sessao-card {
-  display: flex;
-  justify-content: space-between; /* texto à esquerda, botão à direita */
-  align-items: center;
-  background: #f9f9f9;
-  padding: 0.8rem 1rem;
-  border-radius: 8px;
-  margin-bottom: 0.5rem;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: #f9f9f9;
+    padding: 0.8rem 1rem;
+    border-radius: 8px;
+    margin-bottom: 0.5rem;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.05);
 }
 
 /* Botão Cancelar */
 .btn-cancelar {
-  background: #ff4d4d;
-  color: white;
-  border: none;
-  padding: 0.5rem 1rem;
-  border-radius: 6px;
-  font-size: 0.9rem;
-  font-weight: bold;
-  cursor: pointer;
-  transition: 0.3s;
+    background: #ff4d4d;
+    color: white;
+    border: none;
+    padding: 0.5rem 1rem;
+    border-radius: 6px;
+    font-size: 0.9rem;
+    font-weight: bold;
+    cursor: pointer;
+    transition: 0.3s;
 }
 
 .btn-cancelar:hover {
-  background: #cc0000;
+    background: #cc0000;
 }
-/* Botão Entrar na sessão */
+
+/* Botão Entrar */
 .btn-entrar {
-  background: #28a745;
-  color: white;
-  border: none;
-  padding: 0.5rem 1rem;
-  border-radius: 6px;
-  font-size: 0.9rem;
-  font-weight: bold;
-  cursor: pointer;
-  transition: 0.3s;
+    background: #28a745;
+    color: white;
+    border: none;
+    padding: 0.5rem 1rem;
+    border-radius: 6px;
+    font-size: 0.9rem;
+    font-weight: bold;
+    cursor: pointer;
+    transition: 0.3s;
 }
 
 .btn-entrar:hover {
-  background: #1e7e34;
+    background: #1e7e34;
 }
 
+/* Mensagem lista vazia */
+.sessao-vazia {
+    text-align: center;
+    color: #777;
+    font-style: italic;
+    padding: 1rem !important;
+    background: #f5f5f5 !important;
+}
 
+.btn-explorar {
+    background-color: #FFD700; /* Amarelo */
+    color: #000;
+    border: none;
+    padding: 12px 20px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: bold;
+    margin-top: 20px;   /* Espaço acima do botão */
+    margin-bottom: 20px; /* Espaço abaixo do botão */
+    display: block;      /* Faz o botão ocupar só o espaço necessário e permitir alinhamento */
+    text-align: center;
+    align-self: flex-start; /* Garante alinhamento à esquerda dentro do card */
+}
+
+.btn-explorar:hover {
+    background-color: #FFC107; /* Amarelo mais escuro */
+}

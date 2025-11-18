@@ -113,19 +113,54 @@
   gap: 0.5rem;
 }
 
-.calendar-day {
+/* 💥 CORREÇÃO CRÍTICA 1: Estilos para o cabeçalho do dia (Dom, Seg, Ter...) */
+.day-header {
+    font-weight: bold;
+    text-align: center;
+    padding: 0.5rem;
+    color: #333;
+}
+
+/* 💥 CORREÇÃO CRÍTICA 2: Estilos base para todas as células de data */
+.day-cell {
   background: #f9f9f9;
   border-radius: 8px;
   padding: 1rem;
   text-align: center;
-  cursor: pointer;
+  cursor: default; /* Padrão: Não clicável */
   transition: 0.3s;
   box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+  min-height: 50px; /* Garante que as células não fiquem muito pequenas */
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
-.calendar-day:hover {
-  background: #2d6cdf;
-  color: white;
+/* 🟢 CORREÇÃO CRÍTICA 3: Torna o dia disponível (Sábado/Domingo) clicável */
+.day-cell.available-day {
+  background-color: #f0db4f; /* Cor de destaque para disponível */
+  color: #333;
+  cursor: pointer; /* Muda o cursor para indicar clique */
+  font-weight: bold;
+}
+
+.day-cell.available-day:hover {
+  background: #ffc400; /* Cor mais escura no hover */
+  color: #333;
+}
+
+/* Estilo para dias indisponíveis (fora de área/passado) */
+.day-cell.unavailable-day,
+.day-cell.past-day {
+  background: #eee;
+  color: #999;
+  cursor: not-allowed;
+  opacity: 0.7;
+}
+
+/* Estilo para o dia atual */
+.day-cell.today {
+    border: 2px solid #2d6cdf;
 }
 
 /* Modal */
@@ -154,7 +189,7 @@
   cursor: pointer;
 }
 
-.horarios {
+.horarios-container { /* Corrigido de .horarios para .horarios-container */
   display: flex;
   flex-wrap: wrap;
   gap: 0.5rem;
@@ -162,7 +197,7 @@
   margin-top: 1rem;
 }
 
-.horario {
+.time-slot-btn { /* Corrigido de .horario para .time-slot-btn (classe usada no JS) */
   background: #2d6cdf;
   color: white;
   border: none;
@@ -173,18 +208,18 @@
   min-width: 70px;
 }
 
-.horario:hover {
+.time-slot-btn:hover {
   background: #1e4aa7;
 }
 
 /* Horário ocupado */
-.horario.ocupado {
+.time-slot-btn.ocupado {
   background: #ccc;
   color: #666;
   cursor: not-allowed;
 }
 
-.horario.ocupado:hover {
+.time-slot-btn.ocupado:hover {
   background: #ccc;
 }
 /* Popup de confirmação */
@@ -211,4 +246,3 @@
   90% { opacity: 1; transform: translateX(-50%) translateY(0); }
   100% { opacity: 0; transform: translateX(-50%) translateY(-20px); }
 }
-

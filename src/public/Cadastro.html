@@ -1,160 +1,218 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Cadastro - EduMentor</title>
-  <link rel="stylesheet" href="./css/Cadastro.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cadastro - EduMentor</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* Configuração personalizada para a fonte Inter */
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap');
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f7f9fb;
+        }
+        .navbar {
+            background-color: #1e3a8a;
+            color: white;
+        }
+        .cadastro {
+            min-height: calc(100vh - 72px);
+        }
+    </style>
 </head>
-<body>
-  <!-- Navbar -->
-  <header class="navbar">
-    <div class="logo"><a href="/">EduMentor</a></li></div>
-    <nav>
-      <ul>
-           <ul>
-        <li><a href="/">Home</a></li>
-        <li><a href="/login">Entrar</a></li>
-      </ul>
-      </ul>
-    </nav>
-  </header>
+<body class="min-h-screen antialiased">
 
-  <!-- Cadastro -->
-  <section class="cadastro">
-    <div class="form-card">
-      <h2>Crie sua conta</h2>
-      <form id="cadastroForm">
-        <div class="form-group">
-          <label for="nome">Nome completo</label>
-          <input type="text" id="nome" placeholder="Digite seu nome" required>
+    <header class="navbar p-4 shadow-lg sticky top-0 z-10">
+        <div class="max-w-7xl mx-auto flex justify-between items-center">
+            <div class="logo text-2xl font-bold">
+                <a href="Cadastro.html" class="text-white hover:text-gray-200 transition duration-300">EduMentor</a>
+            </div>
+            <nav>
+                <ul class="flex space-x-6">
+                    <li><a href="Cadastro.html" class="text-white hover:text-yellow-300 transition duration-300 font-medium">Home</a></li>
+                    <li><a href="/login.html" class="text-white hover:text-yellow-300 transition duration-300 font-medium">Entrar</a></li>
+                </ul>
+            </nav>
         </div>
+    </header>
 
-        <div class="form-group">
-          <label for="email">E-mail</label>
-          <input type="email" id="email" placeholder="Digite seu e-mail" required>
+    <section class="cadastro flex items-center justify-center py-12 px-4 md:px-6">
+        <div class="form-card w-full max-w-xl bg-white p-8 md:p-10 shadow-2xl rounded-2xl border border-gray-100 transform transition-all duration-300 hover:shadow-3xl">
+            <h2 class="text-3xl font-extrabold text-gray-800 mb-6 text-center">Crie sua conta</h2>
+            
+            <form id="cadastroForm">
+                
+                <div class="form-group mb-4">
+                    <label for="nome" class="block text-sm font-semibold text-gray-700 mb-1">Nome completo</label>
+                    <input type="text" id="nome" placeholder="Digite seu nome" required 
+                           class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 transition duration-150">
+                </div>
+
+                <div class="form-group mb-4">
+                    <label for="email" class="block text-sm font-semibold text-gray-700 mb-1">E-mail</label>
+                    <input type="email" id="email" placeholder="Digite seu e-mail" required
+                           class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 transition duration-150">
+                </div>
+
+                <div class="form-group mb-4">
+                    <label for="senha" class="block text-sm font-semibold text-gray-700 mb-1">Senha</label>
+                    <input type="password" id="senha" placeholder="Digite sua senha" required
+                           class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 transition duration-150">
+                </div>
+
+                <div class="form-group mb-6">
+                    <label for="confirma-senha" class="block text-sm font-semibold text-gray-700 mb-1">Confirme sua senha</label>
+                    <input type="password" id="confirma-senha" placeholder="Confirme sua senha" required
+                           class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 transition duration-150">
+                </div>
+
+                <div class="form-group mb-6">
+                    <label class="block text-sm font-semibold text-gray-700 mb-2">Tipo de usuário</label>
+                    <div class="radio-group flex space-x-6">
+                        <label class="inline-flex items-center text-gray-600 cursor-pointer">
+                            <input class="radio-group__select" type="radio" name="tipo" value="estudante" required
+                                   class="text-blue-600 focus:ring-blue-500"> 
+                            <span class="ml-2 text-base">Estudante</span>
+                        </label>
+                        <label class="inline-flex items-center text-gray-600 cursor-pointer">
+                            <input class="radio-group__select" type="radio" name="tipo" value="mentor" required
+                                   class="text-blue-600 focus:ring-blue-500"> 
+                            <span class="ml-2 text-base">Mentor</span>
+                        </label>
+                    </div>
+                </div>
+
+                <div class="form-group mb-6 hidden" id="serieEscolarGroup">
+                    <label for="serieEscolar" class="block text-sm font-semibold text-gray-700 mb-1">Série escolar</label>
+                    <input type="text" id="serieEscolar" placeholder="Ex: 2º ano do ensino médio"
+                           class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 transition duration-150">
+                </div>
+
+                <div class="form-group mb-8 hidden" id="horarioDisponivelGroup">
+                    <label class="block text-sm font-semibold text-gray-700 mb-2">Disponibilidade</label>
+                    
+                    <div class="dias-semana-group grid grid-cols-4 sm:grid-cols-7 gap-2 mb-4">
+                        <label class="inline-flex items-center text-sm text-gray-600 cursor-pointer">
+                            <input type="checkbox" name="diasDisponiveis" value="Segunda" class="text-blue-600 focus:ring-blue-500 rounded"> 
+                            <span class="ml-1">Seg</span>
+                        </label>
+                        <label class="inline-flex items-center text-sm text-gray-600 cursor-pointer">
+                            <input type="checkbox" name="diasDisponiveis" value="Terça" class="text-blue-600 focus:ring-blue-500 rounded"> 
+                            <span class="ml-1">Ter</span>
+                        </label>
+                        <label class="inline-flex items-center text-sm text-gray-600 cursor-pointer">
+                            <input type="checkbox" name="diasDisponiveis" value="Quarta" class="text-blue-600 focus:ring-blue-500 rounded"> 
+                            <span class="ml-1">Qua</span>
+                        </label>
+                        <label class="inline-flex items-center text-sm text-gray-600 cursor-pointer">
+                            <input type="checkbox" name="diasDisponiveis" value="Quinta" class="text-blue-600 focus:ring-blue-500 rounded"> 
+                            <span class="ml-1">Qui</span>
+                        </label>
+                        <label class="inline-flex items-center text-sm text-gray-600 cursor-pointer">
+                            <input type="checkbox" name="diasDisponiveis" value="Sexta" class="text-blue-600 focus:ring-blue-500 rounded"> 
+                            <span class="ml-1">Sex</span>
+                        </label>
+                        <label class="inline-flex items-center text-sm text-gray-600 cursor-pointer">
+                            <input type="checkbox" name="diasDisponiveis" value="Sábado" class="text-blue-600 focus:ring-blue-500 rounded"> 
+                            <span class="ml-1">Sáb</span>
+                        </label>
+                        <label class="inline-flex items-center text-sm text-gray-600 cursor-pointer">
+                            <input type="checkbox" name="diasDisponiveis" value="Domingo" class="text-blue-600 focus:ring-blue-500 rounded"> 
+                            <span class="ml-1">Dom</span>
+                        </label>
+                    </div>
+                    
+                    <div class="disponibilidade-inputs flex space-x-4">
+                        <div>
+                            <label for="horaInicio" class="block text-sm font-medium text-gray-700 mb-1">Início</label>
+                            <input type="time" id="horaInicio"
+                                   class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 transition duration-150">
+                        </div>
+                        <div>
+                            <label for="horaFim" class="block text-sm font-medium text-gray-700 mb-1">Término</label>
+                            <input type="time" id="horaFim"
+                                   class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 transition duration-150">
+                        </div>
+                    </div>
+                </div>
+
+                <button type="submit" class="w-full bg-yellow-400 hover:bg-yellow-500 text-gray-800 font-bold py-3 px-4 rounded-xl transition duration-300 shadow-md hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-yellow-500 focus:ring-offset-2 mt-4">
+                    Continuar para Interesses
+                </button>
+
+            </form>
         </div>
+    </section>
 
-        <div class="form-group">
-          <label for="senha">Senha</label>
-          <input type="password" id="senha" placeholder="Digite sua senha" required>
-        </div>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const tipoRadios = document.querySelectorAll('input[name="tipo"]');
+            const serieEscolarGroup = document.getElementById('serieEscolarGroup');
+            const horarioDisponivelGroup = document.getElementById('horarioDisponivelGroup');
+            const cadastroForm = document.getElementById('cadastroForm');
+            
+            function toggleUserFields(tipo) {
+                serieEscolarGroup.classList.toggle('hidden', tipo !== 'estudante');
+                horarioDisponivelGroup.classList.toggle('hidden', tipo !== 'mentor');
+            }
 
-        <div class="form-group">
-          <label for="confirma-senha">Confirme sua senha</label>
-          <input type="password" id="confirma-senha" placeholder="Confirme sua senha" required>
-        </div>
+            tipoRadios.forEach(radio => {
+                radio.addEventListener('change', (event) => {
+                    toggleUserFields(event.target.value);
+                });
+            });
+            toggleUserFields('');
 
-        <div class="form-group">
-          <label>Tipo de usuário</label>
-          <div class="radio-group">
-            <label><input class="radio-group__select" type="radio" name="tipo" value="estudante" required> Estudante</label>
-            <label><input class="radio-group__select" type="radio" name="tipo" value="mentor" required> Mentor</label>
-          </div>
-        </div>
+            cadastroForm.addEventListener('submit', function(event) {
+                event.preventDefault();
+                
+                const senha = document.getElementById('senha').value;
+                const confirmaSenha = document.getElementById('confirma-senha').value;
 
-        <!-- Campo Série Escolar (somente para estudante) -->
-        <div class="form-group" id="serieEscolarGroup" style="display: none;">
-          <label for="serieEscolar">Série escolar</label>
-          <input type="text" id="serieEscolar" placeholder="Ex: 2º ano do ensino médio">
-        </div>
+                if (senha !== confirmaSenha) {
+                    alert('As senhas digitadas não coincidem!');
+                    return;
+                }
+                
+                const tipo = document.querySelector('input[name="tipo"]:checked')?.value;
 
-        <div class="form-group" id="horarioDisponivelGroup" style="display: none;">
-          <label>Disponibilidade</label>
-          <div class="disponibilidade-inputs">
-            <label for="dataDisponivel">Dia disponível</label>
-            <input type="date" id="dataDisponivel" required>
+                if (!tipo) {
+                    alert('Por favor, selecione o tipo de usuário.');
+                    return;
+                }
+                
+                // Objeto com os dados essenciais
+                let userData = {
+                    nome: document.getElementById('nome').value,
+                    email: document.getElementById('email').value,
+                    // *** CORREÇÃO: SALVAR A SENHA NO OBJETO TEMPORÁRIO ***
+                    senha: senha, 
+                    // ******************************************************
+                    role: tipo
+                };
 
-            <label for="horaInicio">Hora de início</label>
-            <input type="time" id="horaInicio" required>
+                if (tipo === 'estudante') {
+                    // Adiciona serieEscolar
+                    userData.serieEscolar = document.getElementById('serieEscolar').value;
+                } else if (tipo === 'mentor') {
+                    // Adiciona dados de disponibilidade para mentor
+                    const diasDisponiveis = Array.from(document.querySelectorAll('input[name="diasDisponiveis"]:checked'))
+                                                 .map(cb => cb.value);
+                    userData.disponibilidade = {
+                        dias: diasDisponiveis,
+                        horaInicio: document.getElementById('horaInicio').value,
+                        horaFim: document.getElementById('horaFim').value
+                    };
+                }
 
-            <label for="horaFim">Hora de término</label>
-            <input type="time" id="horaFim" required>
-          </div>
-        </div>
+                // Salvar os dados completos (incluindo senha e série escolar) no localStorage temporário
+                localStorage.setItem('cadastro-parcial', JSON.stringify(userData));
 
-        <button type="submit" class="btn">Cadastrar</button>
-      </form>
-    </div>
-  </section>
-
-  <script>
-    const form = document.getElementById("cadastroForm");
-    const tipoInputs = document.querySelectorAll('input[name="tipo"]');
-    const serieEscolarGroup = document.getElementById("serieEscolarGroup");
-    const horarioDisponivelGroup = document.getElementById("horarioDisponivelGroup");
-
-    tipoInputs.forEach((input) => {
-      input.addEventListener("change", (e) => {
-        const selected = e.target.value;
-
-        if (selected === "estudante") {
-          serieEscolarGroup.style.display = "block";
-          horarioDisponivelGroup.style.display = "none";
-
-          document.getElementById("dataDisponivel").required = false;
-          document.getElementById("horaInicio").required = false;
-          document.getElementById("horaFim").required = false;
-
-          document.getElementById("serieEscolar").required = true;
-
-        } else if (selected === "mentor") {
-          serieEscolarGroup.style.display = "none";
-          horarioDisponivelGroup.style.display = "block";
-
-          document.getElementById("dataDisponivel").required = true;
-          document.getElementById("horaInicio").required = true;
-          document.getElementById("horaFim").required = true;
-
-          document.getElementById("serieEscolar").required = false;
-        }
-      });
-    });
-
-    form.addEventListener("submit", (e) => {
-      e.preventDefault();
-
-      const nome = document.getElementById("nome").value.trim();
-      const email = document.getElementById("email").value.trim();
-      const senha = document.getElementById("senha").value.trim();
-      const confirmaSenha = document.getElementById("confirma-senha").value.trim();
-      const role = document.querySelector('input[name="tipo"]:checked')?.value;
-
-      if (senha !== confirmaSenha) {
-        alert("As senhas não coincidem!");
-        return;
-      }
-
-      const userData = { nome, email, senha, role };
-
-      if (role === "estudante") {
-        const serieEscolar = document.getElementById("serieEscolar").value.trim();
-        if (!serieEscolar) {
-          alert("Por favor, informe sua série escolar.");
-          return;
-        }
-        userData.serieEscolar = serieEscolar;
-        userData.areaInteresse = [];
-      }
-
-      if (role === "mentor") {
-        const data = document.getElementById("dataDisponivel").value;
-        const horaInicio = document.getElementById("horaInicio").value;
-        const horaFim = document.getElementById("horaFim").value;
-        if (!data || !horaInicio || !horaFim) {
-          alert("Por favor, preencha a data e horário disponíveis.");
-          return;
-        }
-        userData.disponibilidade = `${data} das ${horaInicio} às ${horaFim}`;
-        userData.areaConhecimento = [];
-      }
-
-      localStorage.setItem("cadastro-parcial", JSON.stringify(userData));
-      
-      window.location.href = "/interesse";
-    });
-  </script>
-
-
+                // Redirecionar para a página de Interesses
+                window.location.href = "interesses.html"; 
+            });
+        });
+    </script>
 </body>
 </html>

@@ -1,231 +1,193 @@
-/* ------------------------------------------------------------------ */
-/* SEU CSS ORIGINAL */
-/* ------------------------------------------------------------------ */
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    font-family: Arial, sans-serif;
+/* Interesses.css - versão estável e definitiva */
+
+/* Reset básico */
+* { margin: 0; padding: 0; box-sizing: border-box; font-family: Arial, sans-serif; }
+
+/* BODY e espaçamento para navbar fixa */
+body {
+  background: #f4f4f9;
+  min-height: 100vh;
+  padding-top: 72px; /* espaço para navbar fixa */
 }
 
-/* Navbar */
+/* NAVBAR */
 .navbar {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 1rem 5%;
-    background: #2d6cdf;
-    color: white;
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  height: 72px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 4%;
+  background: #2d6cdf;
+  color: #fff;
+  z-index: 1000;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.08);
 }
+.navbar .logo a { color: #fff; text-decoration: none; font-weight: 700; font-size: 1.25rem; }
+.navbar nav ul { list-style: none; display:flex; gap:1rem; align-items:center; }
+.navbar nav a { color:#fff; text-decoration:none; transition: color .18s; }
+.navbar nav a:hover { color: #f0db4f; }
 
-.navbar .logo {
-    font-size: 1.5rem;
-    font-weight: bold;
-}
-
-.navbar ul {
-    list-style: none;
-    display: flex;
-    gap: 1rem;
-}
-
-.navbar a {
-    color: white;
-    text-decoration: none;
-    transition: 0.3s;
-}
-
-.navbar a:hover {
-    color: #f0db4f;
-}
-
-.btn-login {
-    background: #f0db4f;
-    padding: 0.4rem 0.8rem;
-    border-radius: 8px;
-    font-weight: bold;
-    color: #333 !important;
-}
-
-.titulo-interesses {
-    text-align: center;
-    font-size: 1.8rem;
-    font-weight: bold;
-    margin-bottom: 2rem;
-    color: #333;
-}
-
-/* Tela de interesses */
+/* Container principal */
 .interesses {
-    flex: 1;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    padding: 2rem;
-}
-.checkbox-group {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    justify-items: center;
-    gap: 2rem;
-    margin: 2rem 0;
-    width: 100%;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  padding: 2rem 1rem;
 }
 
-/* Cards maiores */
+/* Form card */
 .form-card {
-    /* Necessário para manter o card centralizado */
-    max-width: 1300px; 
-    padding: 20px;
+  width: 100%;
+  max-width: 1100px;
+  padding: 18px;
+  margin: 0 auto;
 }
 
+/* título */
+.titulo-interesses {
+  text-align: center;
+  font-size: 1.6rem;
+  margin-bottom: 1.25rem;
+  color: #333;
+}
+
+/* GRID DOS CARDS */
+.checkbox-group {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 18px;
+  width: 100%;
+  margin: 0 auto;
+  align-items: start;
+  justify-items: center;
+  padding: 0;
+}
+
+/* CARD */
 .card-checkbox {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    background: #f5f5f5;
-    padding: 2.5rem;
-    border-radius: 16px;
-    cursor: pointer;
-    transition: 0.3s;
-    border: 2px solid transparent;
-    text-align: center;
-    min-height: 250px;
-    width: 400px;
+  position: relative;
+  box-sizing: border-box;
+  width: 100%;
+  max-width: 220px;
+  min-height: 160px;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  background: #ffffff;
+  border-radius: 12px;
+  border: 1px solid #e6e6e6;
+  cursor: pointer;
+  text-align: center;
+  transition: transform .15s ease, box-shadow .15s ease;
+}
+.card-checkbox input[type="checkbox"] {
+  position: absolute;
+  opacity: 0;
+  width: 0;
+  height: 0;
+  pointer-events: none;
 }
 
+/* Ícone */
 .card-checkbox img {
-    width: 96px;
-    height: 96px;
-    margin-bottom: 1rem;
+  width: 64px;
+  height: 64px;
+  object-fit: contain;
 }
 
+/* Texto */
 .card-checkbox span {
-    font-weight: bold;
-    font-size: 1.2rem;
+  display: block;
+  font-size: 14px;
+  font-weight: 600;
+  color: #333;
+  line-height: 1.1;
+  max-width: 100%;
 }
 
-.card-checkbox input {
-    display: none;
-}
-
-.card-checkbox input:checked + img {
-    transform: scale(1.15);
-    transition: 0.2s;
-}
-
-.card-checkbox input:checked + img + span {
-    color: #2d6cdf;
-}
-
+/* Hover e Seleção */
 .card-checkbox:hover {
-    background: #e9e9e9;
+  transform: translateY(-4px);
+  box-shadow: 0 6px 18px rgba(0,0,0,0.06);
+}
+.card-checkbox.selecionado {
+  border-color: #2d6cdf;
+  background: #eaf2ff;
 }
 
-
-.btn-container {
-    display: flex;
-    justify-content: center;
-    margin: 2rem 0;
-    align-items: center;
-}
-
+/* Botão */
+.btn-container { display:flex; justify-content:center; margin-top:1.5rem; }
 .btn {
+  background:#ffc107;
+  border:none;
+  padding:.7rem 1.6rem;
+  border-radius:8px;
+  font-weight:700;
+  cursor:pointer;
+}
+.btn:hover{ background:#e0a800; }
+
+/* MODAL */
+.modal-overlay{
+  position:fixed;
+  inset:0;
+  display:none;
+  align-items:center;
+  justify-content:center;
+  background:rgba(0,0,0,0.5);
+  z-index:2000;
+  opacity:0;
+  transition:opacity .2s;
+}
+.modal-overlay.active{ display:flex; opacity:1; }
+.modal-content{
+  background:#fff;
+  padding:28px;
+  border-radius:12px;
+  max-width:420px;
+  width:90%;
+  box-shadow:0 8px 28px rgba(0,0,0,0.12);
+}
+
+/* RESPONSIVO */
+@media (max-width: 1100px) {
+  .checkbox-group { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+}
+@media (max-width: 800px) {
+  .checkbox-group { grid-template-columns: repeat(2, minmax(0, 1fr)); gap:14px; }
+  .card-checkbox { max-width: 260px; }
+}
+@media (max-width: 480px) {
+  .checkbox-group { grid-template-columns: 1fr; gap:12px; }
+  .card-checkbox { max-width: 100%; width: 90%; min-height: 120px; }
+}
+
+/* Ícone do modal azul */
+.modal-icon {
+    width: 48px;
+    height: 48px;
+    color: #2d6cdf; /* azul da navbar */
+    display: block;
+    margin: 0 auto 12px auto;
+}
+
+/* Botão do modal igual ao botão Salvar */
+.modal-btn {
     background: #ffc107;
     border: none;
-    padding: 0.8rem 2rem;
+    padding: .7rem 1.6rem;
     border-radius: 8px;
-    font-weight: bold;
+    font-weight: 700;
     cursor: pointer;
-    transition: 0.3s;
-}
-
-.btn:hover {
-    background: #e0a800;
-}
-
-/* ------------------------------------------------------------------ */
-/* NOVO CSS PARA O MODAL */
-/* ------------------------------------------------------------------ */
-.modal-overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
     width: 100%;
-    height: 100%;
-    background: rgba(0, 0, 0, 0.6); /* Fundo escuro */
-    display: none; /* Inicia oculto */
-    justify-content: center;
-    align-items: center;
-    z-index: 1000;
-    opacity: 0; /* Para o efeito de transição */
-    transition: opacity 0.3s ease-out;
-}
-
-.modal-content {
-    background: #ffffff;
-    padding: 40px;
-    border-radius: 16px; /* Para seguir o estilo do form-card */
     text-align: center;
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
-    max-width: 400px;
-    width: 90%;
-    transform: scale(0.9);
-    transition: transform 0.3s ease-out;
-}
-
-.modal-overlay.active {
-    display: flex; /* Exibe o container */
-    opacity: 1; /* Torna visível */
-}
-
-.modal-overlay.active .modal-content {
-    transform: scale(1); /* Aplica o efeito de zoom */
-}
-
-.modal-icon {
-    width: 80px;
-    height: 80px;
-    margin-bottom: 15px;
-    color: #2d6cdf; /* Cor primária do EduMentor (Sucesso) */
-}
-
-.modal-content h3 {
-    color: #333;
-    font-size: 1.8rem;
-    margin-bottom: 10px;
-}
-
-.modal-content p {
-    color: #555;
-    font-size: 1rem;
-    margin-bottom: 25px;
-}
-
-.modal-btn {
-    background: #2d6cdf; /* Cor primária para o botão principal */
-    color: white;
-    border: none;
-    padding: 0.8rem 2rem;
-    border-radius: 8px;
-    font-weight: bold;
-    cursor: pointer;
-    transition: 0.3s;
-    font-size: 1rem;
+    margin-top: 18px;
 }
 
 .modal-btn:hover {
-    background: #1f4f9f;
-}
-
-/* Estilo para a mensagem de Erro no Modal */
-.modal-content.error-modal .modal-icon {
-    color: #dc3545; /* Cor vermelha para erro */
-}
-.modal-content.error-modal .modal-btn {
-    background: #dc3545;
-}
-.modal-content.error-modal .modal-btn:hover {
-    background: #a71d2a;
+    background: #e0a800;
 }

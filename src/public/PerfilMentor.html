@@ -7,7 +7,6 @@
   <link rel="stylesheet" href="./css/PerfilMentor.css">
 </head>
 <body>
-  <!-- Navbar -->
   <header class="navbar">
     <div class="logo"><a href="/">EduMentor</a></div>
     <nav>
@@ -19,24 +18,21 @@
     </nav>
   </header>
 
-  <!-- Conteúdo -->
   <section class="perfil-mentor">
-    <!-- Título do perfil -->
-    <h1 class="titulo-secao">Perfil do Mentor <br></h1>
+    <h1 class="titulo-secao">Perfil do Mentor</h1>
 
     <div class="mentor-info">
-      <img src="https://img.icons8.com/color/96/000000/teacher.png" alt="Mentor">
+      <img id="mentorFoto" src="https://img.icons8.com/color/96/000000/teacher.png" alt="Foto do Mentor">
+      
       <div class="mentor-detalhes">
-        <h2>João Silva</h2>
-        <p>Idade: 32 anos</p>
-        <p>Área: Matemática</p>
+        <h2 id="mentorNome"></h2> 
+        <p id="mentorArea">Área: </p> 
+        <p id="mentorDisponibilidade">Disponibilidade: </p>
       </div>
     </div>
 
-    <!-- Título da agenda -->
-    <h2 class="titulo-secao">Agende sua Sessão <br></h2>
+    <h2 class="titulo-secao">Agende sua Sessão</h2>
 
-    <!-- Calendário -->
     <div class="calendar-container">
       <div class="calendar-header">
         <button id="prevMonth">&lt;</button>
@@ -47,7 +43,6 @@
     </div>
   </section>
 
-  <!-- Modal para agendamento -->
   <div class="modal" id="scheduleModal">
     <div class="modal-content">
       <span class="close" id="closeModal">&times;</span>
@@ -57,9 +52,8 @@
     </div>
   </div>
 
-  <!-- Popup de confirmação -->
   <div id="popupConfirmacao" class="popup">✅ Sessão agendada com sucesso!</div>
 
-  <script src="PerfilMentor.js"></script>
+  <script src="./js/PerfilMentor.js"></script>
 </body>
 </html>

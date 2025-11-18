@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Agendamento de Sessões - EduMentor</title>
+  <link rel="stylesheet" href="./css/ListaMentores.css"> 
+</head>
+<body>
+  <header class="navbar">
+    <div class="logo"><a href="/">EduMentor</a></div>
+    <nav>
+      <ul>
+        <li><a href="/">Home</a></li>
+        <li><a href="/meu-perfil">Meu Perfil</a></li>
+        <li><a href="#">Sair</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <section class="agendamento">
+    <h2 class="titulo-agendamento">Escolha um mentor para agendar sua sessão</h2>
+    <div class="mentor-grid" id="mentorGrid">
+      </div>
+    <div id="noMentoresMsg" class="no-mentores" style="display:none;">
+      <svg xmlns="http://www.w3.org/2000/svg" width="120" height="120" fill="#2d6cdf" viewBox="0 0 24 24">
+        <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>
+      </svg>
+      <h3>Ops! Parece que ainda não há mentores cadastrados.</h3>
+      <p>Volte mais tarde ou cadastre-se como mentor para aparecer aqui.</p>
+    </div>
+  </section>
+
+  <script>
+const mentorGrid = document.getElementById("mentorGrid");
+    const noMentoresMsg = document.getElementById("noMentoresMsg");
+
+    function carregarMentores() {
+        mentorGrid.innerHTML = ""; // Limpa grid
+        const mentores = [];
+
+        // ⭐ NOVO CÓDIGO: VARRE O LOCALSTORAGE INTEIRO
+        for (let i = 0; i < localStorage.length; i++) {
+            const key = localStorage.key(i);
+            // Procura por todas as chaves de usuário permanente
+            if (key.startsWith("user-data-")) { 
+                try {
+                    const user = JSON.parse(localStorage.getItem(key));
+                    // Filtra apenas aqueles com a função (role) de mentor
+                    if (user && user.role === "mentor") { 
+                        mentores.push(user);
+                    }
+                } catch (e) {
+                    console.error("Erro ao processar item do localStorage:", key, e);
+                }
+            }
+        }
+        // FIM NOVO CÓDIGO
+
+        if (mentores.length === 0) {
+            noMentoresMsg.style.display = "flex";
+            return;
+        } else {
+            noMentoresMsg.style.display = "none";
+        }
+
+        // Cria cards para cada mentor
+        mentores.forEach(mentor => {
+            const card = document.createElement("div");
+            card.className = "mentor-card";
+
+            const foto = localStorage.getItem(`profile-picture-${mentor.email}`) || "./img/defaultUser.png";
+            
+            // Tenta obter a área de conhecimento do perfil, ou usa um valor padrão
+            const areas = mentor.perfil?.areaConhecimento?.join(", ") || "Sem área definida";
+            
+            // Formata a disponibilidade
+            const disp = mentor.disponibilidade ? 
+                            `${mentor.disponibilidade.dias.join(", ")} das ${mentor.disponibilidade.horaInicio} às ${mentor.disponibilidade.horaFim}` 
+                            : "Não definida";
+
+            card.innerHTML = `
+              <img src="${foto}" alt="${mentor.nome}">
+              <h3>${mentor.nome}</h3>
+              <p><strong>Áreas:</strong> ${areas}</p>
+              <p><strong>Disponibilidade:</strong> ${disp}</p>
+              <button class="btn-marcar" data-email="${mentor.email}">Marcar Sessão</button>
+            `;
+
+            mentorGrid.appendChild(card);
+        });
+
+        // Adiciona o Event Listener para os botões de Marcar Sessão
+        adicionarListenersDeAgendamento();
+    }
+    
+    function adicionarListenersDeAgendamento() {
+        const botoesMarcar = document.querySelectorAll(".btn-marcar");
+
+        botoesMarcar.forEach(botao => {
+            botao.addEventListener('click', (event) => {
+                const emailMentor = event.target.getAttribute('data-email');
+                if (emailMentor) {
+                    // Redireciona para PerfilMentor.html, passando o email na URL
+                    window.location.href = `PerfilMentor.html?mentorEmail=${emailMentor}`;
+                }
+            });
+        });
+    }
+
+    carregarMentores();
+  </script>
+   
+</body>
+</html>

@@ -42,45 +42,8 @@
     </div>
   </section>
 
-<script>
-  const form = document.getElementById("loginForm");
 
-  form.addEventListener("submit", async (e) => {
-    e.preventDefault();
-
-    const email = document.getElementById("email").value.trim();
-    const senha = document.getElementById("senha").value.trim();
-
-    if (!email || !senha) {
-      alert("Preencha todos os campos!");
-      return;
-    }
-
-    try {
-      const response = await fetch("http://localhost:3000/auth/login", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email, senha })
-      });
-
-      const data = await response.json();
-
-      if (!response.ok) {
-        alert(data.error || "Falha ao fazer login");
-        return;
-      }
-
-      document.cookie = `token=${data.token}; path=/; max-age=${60 * 60 * 24}; SameSite=Lax`;
-      document.cookie = `usuario=${encodeURIComponent(JSON.stringify(data.user))}; path=/; max-age=${60 * 60 * 24}; SameSite=Lax`;
-
-      alert("Login realizado com sucesso!");
-      window.location.href = "/";
-    } catch (error) {
-      console.error("Erro no login:", error);
-      alert("Erro de conexão com o servidor.");
-    }
-  });
-</script>
 
 </body>
+<script src="./js/Entrar.js"></script>
 </html>

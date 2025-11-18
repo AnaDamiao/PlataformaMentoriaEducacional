@@ -1,164 +1,19 @@
+/* Configuração personalizada para a fonte Inter */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap');
 body {
-  min-height: 100vh;
-  margin: 0;
-  padding: 0;
-  background: #f9f9f9; /* cor de fundo clara em toda a tela */
-  display: flex;
-  flex-direction: column;
-}
-/* Reset básico */
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-  font-family: Arial, sans-serif;
+  font-family: 'Inter', sans-serif;
+  background-color: #f7f9fb; /* Fundo claro para contrastar com o card */
 }
 
-/* Navbar */
+/* Estilo da barra de navegação superior (somente a cor de fundo) */
 .navbar {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 1rem 5%;
-  background: #2d6cdf;
+  background-color: #1e3a8a; /* Azul escuro */
   color: white;
 }
 
-.navbar .logo {
-  font-size: 1.5rem;
-  font-weight: bold;
-}
-
-.navbar ul {
-  list-style: none;
-  display: flex;
-  gap: 1rem;
-}
-
-.navbar a {
-  color: white;
-  text-decoration: none;
-  transition: 0.3s;
-}
-
-.navbar a:hover {
-  color: #f0db4f;
-}
-
-.btn-login {
-  background: #f0db4f;
-  padding: 0.4rem 0.8rem;
-  border-radius: 8px;
-  font-weight: bold;
-  color: #333 !important;
-}
-/* Cadastro */
+/* A classe 'cadastro' garante que o card seja centralizado verticalmente na área visível, 
+   removendo a rolagem indesejada. */
 .cadastro {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  min-height: calc(100vh - 120px); /* ocupa a tela inteira menos navbar e footer */
-  background: #f9f9f9; /* cor de fundo clara */
-  padding: 2rem;
+    /* min-height: 100vh - 72px (altura da navbar) */
+    min-height: calc(100vh - 72px); 
 }
-.form-card {
-  background: white;
-  padding: 2rem 2.5rem;
-  border-radius: 16px;
-  box-shadow: 0px 6px 14px rgba(0,0,0,0.15);
-  width: 100%;
-  max-width: 450px;
-}
-
-.form-card h2 {
-  text-align: center;
-  margin-bottom: 1.5rem;
-}
-
-.form-group {
-  margin-bottom: 1rem;
-}
-
-.form-group label {
-  display: block;
-  margin-bottom: 0.4rem;
-  font-weight: bold;
-  color: #333;
-}
-
-.form-group input {
-  width: 100%;
-  padding: 0.7rem;
-  border: 1px solid #ccc;
-  border-radius: 8px;
-  outline: none;
-  transition: 0.3s;
-}
-
-.form-group input:focus {
-  border-color: #2d6cdf;
-  box-shadow: 0px 0px 6px rgba(45,108,223,0.4);
-}
-
-.radio-group {
-  display: flex;
-  gap: 1.5rem;
-  margin: 1.5rem 0;
-}
-
-.btn {
-  width: 100%;
-  padding: 0.8rem;
-  background: #f0db4f;
-  color: #333;
-  border: none;
-  border-radius: 10px;
-  font-weight: bold;
-  font-size: 1rem;
-  cursor: pointer;
-  transition: 0.3s;
-}
-
-.btn:hover {
-  background: #ffd700;
-}
-
-.radio-group__select {
-  width: 13px !important;
-}
-
-.disponibilidade-inputs {
-  display: flex;
-  flex-direction: column;
-  gap: 0.8rem;
-  background: #f7f8ff;
-  padding: 1rem;
-  border: 1px solid #d0d7f0;
-  border-radius: 10px;
-  margin-top: 0.5rem;
-}
-
-.disponibilidade-inputs label {
-  font-weight: bold;
-  color: #333;
-  margin-bottom: 0.2rem;
-}
-
-.disponibilidade-inputs input[type="date"],
-.disponibilidade-inputs input[type="time"] {
-  width: 100%;
-  padding: 0.7rem;
-  border: 1px solid #ccc;
-  border-radius: 8px;
-  outline: none;
-  transition: 0.3s;
-  background-color: #fff;
-}
-
-.disponibilidade-inputs input[type="date"]:focus,
-.disponibilidade-inputs input[type="time"]:focus {
-  border-color: #2d6cdf;
-  box-shadow: 0px 0px 6px rgba(45,108,223,0.4);
-}
-
-
