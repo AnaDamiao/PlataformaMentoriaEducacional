@@ -85,11 +85,7 @@ body {
   transition: transform .15s ease, box-shadow .15s ease;
 }
 .card-checkbox input[type="checkbox"] {
-  position: absolute;
-  opacity: 0;
-  width: 0;
-  height: 0;
-  pointer-events: none;
+  display: none;
 }
 
 /* Ícone */

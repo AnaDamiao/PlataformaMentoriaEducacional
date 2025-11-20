@@ -23,7 +23,7 @@
     <div class="hero-text">
       <h1>Conectando alunos e mentores</h1>
       <p>Aprenda com os melhores professores, no seu ritmo e onde estiver.</p>
-      <a href="/agendamento" class="btn">Explorar Mentores</a>
+      <a href="/listaMentores" class="btn">Explorar Mentores</a>
     </div>
   </section>
 
@@ -49,5 +49,24 @@
   </footer>
 
   <script src="./js/PerfilMentor.js"></script>
+  <script src="/js/logout.js"></script>
+
+  <script>
+    async function verificarLogin() {
+      const res = await fetch("/auth/me", { credentials: "include" });
+
+      const nav = document.querySelector(".navbar ul");
+
+      if (res.ok) {
+        nav.innerHTML = `
+          <li><a href="/meu-perfil">Meu Perfil</a></li>
+          <li><button class="btn-login" onclick="logout()">Sair</button></li>
+        `;
+      }
+    }
+
+    verificarLogin();
+  </script>
+
 </body>
 </html>

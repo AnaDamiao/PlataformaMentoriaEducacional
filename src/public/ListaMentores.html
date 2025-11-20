@@ -32,83 +32,58 @@
   </section>
 
   <script>
-const mentorGrid = document.getElementById("mentorGrid");
-    const noMentoresMsg = document.getElementById("noMentoresMsg");
+  const mentorGrid = document.getElementById("mentorGrid");
+  const noMentoresMsg = document.getElementById("noMentoresMsg");
 
-    function carregarMentores() {
-        mentorGrid.innerHTML = ""; // Limpa grid
-        const mentores = [];
+  async function carregarMentores() {
+      mentorGrid.innerHTML = ""; 
+      const res = await fetch("/mentores");
+      const mentores = await res.json();
 
-        // ⭐ NOVO CÓDIGO: VARRE O LOCALSTORAGE INTEIRO
-        for (let i = 0; i < localStorage.length; i++) {
-            const key = localStorage.key(i);
-            // Procura por todas as chaves de usuário permanente
-            if (key.startsWith("user-data-")) { 
-                try {
-                    const user = JSON.parse(localStorage.getItem(key));
-                    // Filtra apenas aqueles com a função (role) de mentor
-                    if (user && user.role === "mentor") { 
-                        mentores.push(user);
-                    }
-                } catch (e) {
-                    console.error("Erro ao processar item do localStorage:", key, e);
-                }
-            }
-        }
-        // FIM NOVO CÓDIGO
+      if (!mentores || mentores.length === 0) {
+          mentorGrid.innerHTML = "";
+          noMentoresMsg.style.display = "flex";
+          return;
+      } else {
+          noMentoresMsg.style.display = "none";
+      }
 
-        if (mentores.length === 0) {
-            noMentoresMsg.style.display = "flex";
-            return;
-        } else {
-            noMentoresMsg.style.display = "none";
-        }
+      mentores.forEach(mentor => {
+          const card = document.createElement("div");
+          card.className = "mentor-card";
 
-        // Cria cards para cada mentor
-        mentores.forEach(mentor => {
-            const card = document.createElement("div");
-            card.className = "mentor-card";
+          const foto = mentor.foto || "./img/defaultUser.png";
+          const areas = mentor.areaConhecimento?.join(", ") || "Sem área definida";
 
-            const foto = localStorage.getItem(`profile-picture-${mentor.email}`) || "./img/defaultUser.png";
-            
-            // Tenta obter a área de conhecimento do perfil, ou usa um valor padrão
-            const areas = mentor.perfil?.areaConhecimento?.join(", ") || "Sem área definida";
-            
-            // Formata a disponibilidade
             const disp = mentor.disponibilidade ? 
                             `${mentor.disponibilidade.dias.join(", ")} das ${mentor.disponibilidade.horaInicio} às ${mentor.disponibilidade.horaFim}` 
-                            : "Não definida";
+            : "Não definida";
 
-            card.innerHTML = `
+          card.innerHTML = `
               <img src="${foto}" alt="${mentor.nome}">
               <h3>${mentor.nome}</h3>
               <p><strong>Áreas:</strong> ${areas}</p>
               <p><strong>Disponibilidade:</strong> ${disp}</p>
-              <button class="btn-marcar" data-email="${mentor.email}">Marcar Sessão</button>
-            `;
+              <button class="btn-marcar" data-id="${mentor.id}">Marcar Sessão</button>
+          `;
 
-            mentorGrid.appendChild(card);
-        });
+          mentorGrid.appendChild(card);
+      });
 
-        // Adiciona o Event Listener para os botões de Marcar Sessão
-        adicionarListenersDeAgendamento();
-    }
-    
-    function adicionarListenersDeAgendamento() {
-        const botoesMarcar = document.querySelectorAll(".btn-marcar");
+      adicionarListenersDeAgendamento();
+  }
 
-        botoesMarcar.forEach(botao => {
-            botao.addEventListener('click', (event) => {
-                const emailMentor = event.target.getAttribute('data-email');
-                if (emailMentor) {
-                    // Redireciona para PerfilMentor.html, passando o email na URL
-                    window.location.href = `PerfilMentor.html?mentorEmail=${emailMentor}`;
-                }
-            });
-        });
-    }
+  function adicionarListenersDeAgendamento() {
+      const botoes = document.querySelectorAll(".btn-marcar");
+      botoes.forEach(btn => {
+          btn.addEventListener("click", (event) => {
+              const mentorId = event.target.getAttribute("data-id");
+              window.location.href = `PerfilMentor.html?id=${mentorId}`;
+          });
+      });
+  }
 
-    carregarMentores();
+  carregarMentores();
   </script>
    
 </body>

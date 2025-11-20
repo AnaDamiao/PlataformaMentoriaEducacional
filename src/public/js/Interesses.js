@@ -1,100 +1,63 @@
-document.addEventListener('DOMContentLoaded', () => {
-    const btnSalvar = document.getElementById("btnSalvar");
-    const tituloInteresses = document.getElementById("tituloInteresses");
-    const checkboxes = document.querySelectorAll('.checkbox-group input[type="checkbox"]');
-    const statusModal = document.getElementById("statusModal");
-    const modalBtn = document.getElementById("modalBtn");
-    const modalTitle = document.getElementById("modalTitle");
-    const modalMessage = document.getElementById("modalMessage");
-    const modalIcon = statusModal ? statusModal.querySelector(".modal-icon") : null;
-    const modalContent = statusModal ? statusModal.querySelector(".modal-content") : null;
+const btnSalvar = document.getElementById("btnSalvar");
 
-    // --- 1. Carregamento dos dados parciais ---
-    const dadosParciaisString = localStorage.getItem("cadastro-parcial");
-    if (!dadosParciaisString) {
-        window.location.href = "Cadastro.html";
-        return;
-    }
-    const dadosParciais = JSON.parse(dadosParciaisString);
-    const role = dadosParciais.role || "estudante";
-    const areaLabel = role === "mentor" ? "conhecimento" : "interesse";
+let dadosParciais = JSON.parse(localStorage.getItem("cadastro-parcial"));
 
-    if (tituloInteresses) {
-        tituloInteresses.textContent = `Selecione sua área de ${areaLabel}`;
-    }
+if (!dadosParciais) {
+  alert("Erro: dados do cadastro não encontrados.");
+  window.location.href = "/cadastro";
+}
 
-    // --- 2. Estilo dos cards ---
-    const updateCardState = (checkbox) => {
-        const card = checkbox.closest('.card-checkbox');
-        if (card) {
-            checkbox.checked ? card.classList.add('selecionado') : card.classList.remove('selecionado');
-        }
-    };
+let role = dadosParciais.role;
+const checkboxes = document.querySelectorAll(".card-checkbox input");
 
-    checkboxes.forEach(checkbox => {
-        updateCardState(checkbox);
-        checkbox.addEventListener('change', (e) => updateCardState(e.target));
-    });
+const cards = document.querySelectorAll(".card-checkbox");
 
-    // --- 3. Modal ---
-    function showModal(title, message, isSuccess, redirectPath) {
-        if (!statusModal || !modalContent) return;
+cards.forEach(card => {
+    const checkbox = card.querySelector("input");
 
-        modalTitle.textContent = title;
-        modalMessage.textContent = message;
-        modalContent.classList.remove('error-modal');
-        if (!isSuccess) {
-            modalContent.classList.add('error-modal');
-            if (modalIcon) modalIcon.innerHTML = `<path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd"></path>`;
+    card.addEventListener("click", (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+
+        checkbox.checked = !checkbox.checked;
+
+        if (checkbox.checked) {
+            card.classList.add("selecionado");
         } else {
-            if (modalIcon) modalIcon.innerHTML = `<path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>`;
+            card.classList.remove("selecionado");
         }
+    });
+});
 
-        statusModal.style.display = 'flex';
-        setTimeout(() => statusModal.classList.add('active'), 10);
+btnSalvar.addEventListener("click", async () => {
+  const selecionados = Array.from(checkboxes)
+    .filter(c => c.checked)
+    .map(c => c.value);
 
-        if (modalBtn) {
-            modalBtn.onclick = () => {
-                statusModal.classList.remove('active');
-                setTimeout(() => statusModal.style.display = 'none', 300);
-                if (redirectPath) window.location.href = redirectPath;
-            };
-        }
-    }
+  if (selecionados.length === 0) {
+    alert("Selecione ao menos uma área.");
+    return;
+  }
 
-    // --- 4. Salvar ---
-    if (btnSalvar) {
-        btnSalvar.addEventListener("click", () => {
-            const itensSelecionados = Array.from(checkboxes)
-                .filter(c => c.checked)
-                .map(c => c.value);
+  if (role === "estudante") {
+    dadosParciais.areaInteresse = selecionados;
+  } else {
+    dadosParciais.areaConhecimento = selecionados;
+  }
 
-            if (itensSelecionados.length === 0) {
-                alert(`Selecione pelo menos uma área de ${areaLabel}.`);
-                return;
-            }
+  const res = await fetch("/auth/register", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(dadosParciais)
+  });
 
-            if (!dadosParciais.perfil) dadosParciais.perfil = {};
+  const data = await res.json();
 
-            if (role === "estudante") {
-                dadosParciais.perfil.areaInteresse = itensSelecionados;
-            } else {
-                dadosParciais.perfil.areaConhecimento = itensSelecionados;
-            }
+  if (!res.ok) {
+    alert(data.error || "Erro ao registrar.");
+    return;
+  }
 
-            // Salvar permanentemente no localStorage
-            const emailLower = dadosParciais.email.trim().toLowerCase();
-            const userKey = `user-data-${emailLower}`;
-            localStorage.setItem(userKey, JSON.stringify(dadosParciais));
-            localStorage.setItem("usuario-logado", JSON.stringify(dadosParciais));
-            localStorage.removeItem("cadastro-parcial");
-
-            showModal(
-                "Cadastro Concluído!",
-                "Seus interesses foram salvos com sucesso. Clique em Continuar para ver seu Perfil.",
-                true,
-                "MeuPerfil.html"
-            );
-        });
-    }
+  localStorage.removeItem("cadastro-parcial");
+  window.location.href = "/login";
 });

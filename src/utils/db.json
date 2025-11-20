@@ -1,0 +1,45 @@
+{
+  "users": [
+    {
+      "id": 1763663729826,
+      "nome": "Eduardo",
+      "email": "eduardo@gmail.com",
+      "senha": "$2b$10$ONtd4M1/3UXKdSh6bXiYpe0DQOo/ozZE3KN7MSGqM19BBfPWjSlPu",
+      "role": "mentor",
+      "areaConhecimento": [
+        "Matemática",
+        "Física"
+      ],
+      "disponibilidade": {
+        "dias": [
+          "Segunda",
+          "Quarta",
+          "Sexta"
+        ],
+        "horaInicio": "18:00",
+        "horaFim": "22:00"
+      }
+    },
+    {
+      "id": 1763664786912,
+      "foto": null,
+      "nome": "Ana Clara",
+      "email": "damiaoclara2003@gmail.com",
+      "senha": "$2b$10$1FOmqDEhgttz67mwacuokuAQhDdr6dbLCy7UZg.sKog0ybBv9nAmO",
+      "role": "mentor",
+      "areaConhecimento": [
+        "Inglês",
+        "Programação"
+      ],
+      "disponibilidade": {
+        "dias": [
+          "Segunda",
+          "Terça"
+        ],
+        "horaInicio": "18:00",
+        "horaFim": "22:00"
+      }
+    }
+  ],
+  "sessions": []
+}

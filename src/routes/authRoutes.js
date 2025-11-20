@@ -1,18 +1,11 @@
 const express = require("express");
 const router = express.Router();
-const { register, login } = require("../controllers/authController");
-const User = require("../models/User");
+const auth = require("../middlewares/authMiddleware");
+const { login, register, me, logout } = require("../controllers/authController");
 
 router.post("/register", register);
 router.post("/login", login);
-
-router.get("/users", async (req, res) => {
-  const users = await User.findAll();
-  const sanitized = users.map(u => {
-    const { senha, ...rest } = u;
-    return rest;
-  });
-  res.json(sanitized);
-});
+router.get("/me", auth, me);
+router.post("/logout", logout);
 
 module.exports = router;

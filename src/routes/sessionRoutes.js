@@ -1,5 +1,6 @@
 const express = require("express");
 const router = express.Router();
+const auth = require("../middlewares/authMiddleware");
 const {
   addAvailability,
   scheduleSession,
@@ -8,15 +9,11 @@ const {
   listSessions
 } = require("../controllers/sessionController");
 
-router.post("/availability", addAvailability);
+router.post("/availability", auth, addAvailability);
+router.post("/schedule", auth, scheduleSession);
+router.post("/confirm", auth, confirmSession);
+router.post("/complete", auth, completeSession);
 
-router.post("/schedule", scheduleSession);
-
-router.post("/confirm", confirmSession);
-
-router.post("/complete", completeSession);
-
-//lista todos
-router.get("/", listSessions);
+router.get("/", auth, listSessions);
 
 module.exports = router;

@@ -1,42 +1,47 @@
-let sessions = [];
+const db = require("../utils/localDB");
 
-class SessionMock {
-  static async create({ mentorId, estudanteId, horario, status }) {
+class Session {
+  static async create(data) {
+    const database = db.getData();
+
     const newSession = {
-      id: sessions.length + 1,
-      mentorId,
-      estudanteId,
-      horario,
-      status: status || "disponivel"
+      id: Date.now(),
+      ...data
     };
-    sessions.push(newSession);
-    return { ...newSession };
+
+    database.sessions.push(newSession);
+    db.saveData(database);
+
+    return newSession;
   }
 
   static async findAll() {
-    return sessions.map(s => ({ ...s }));
+    return db.getData().sessions;
   }
 
   static async findById(id) {
-    return sessions.find(s => s.id === parseInt(id)) || null;
+    return db.getData().sessions.find(s => s.id === parseInt(id)) || null;
   }
 
   static async updateStatus(id, status) {
-    const session = sessions.find(s => s.id === parseInt(id));
-    if (session) {
-      session.status = status;
-      return { ...session };
-    }
-    return null;
+    const database = db.getData();
+    const session = database.sessions.find(s => s.id === parseInt(id));
+
+    if (!session) return null;
+
+    session.status = status;
+    db.saveData(database);
+
+    return session;
   }
 
   static async findByMentor(mentorId) {
-    return sessions.filter(s => s.mentorId === mentorId);
+    return db.getData().sessions.filter(s => s.mentorId === mentorId);
   }
 
   static async findByEstudante(estudanteId) {
-    return sessions.filter(s => s.estudanteId === estudanteId);
+    return db.getData().sessions.filter(s => s.estudanteId === estudanteId);
   }
 }
 
-module.exports = SessionMock;
+module.exports = Session;

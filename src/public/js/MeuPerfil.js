@@ -1,99 +1,80 @@
-document.addEventListener('DOMContentLoaded', () => {
-    const nomePerfilEl = document.getElementById("nomePerfil");
-    const emailPerfilEl = document.getElementById("emailPerfil");
-    const labelInfoEspecificaEl = document.getElementById("labelInfoEspecifica");
-    const infoEspecificaEl = document.getElementById("infoEspecifica");
-    const labelAreaInteresseEl = document.getElementById("labelAreaInteresse");
-    const areaInteresseEl = document.getElementById("areaInteresse"); 
-    const listaAgendamentosEl = document.getElementById("lista-agendamentos");
-    const fotoPerfilEl = document.getElementById("fotoPerfil");
-    const fileInputEl = document.getElementById("fileInput");
+async function carregarUsuario() {
+  const response = await fetch("/auth/me", { credentials: "include" });
 
-    let usuarioLogado = null;
-    let profileKey = null;
+  if (!response.ok) {
+    window.location.href = "/login";
+    return;
+  }
 
-    if (fotoPerfilEl) {
-        fotoPerfilEl.addEventListener('click', () => fileInputEl?.click());
+  const { user } = await response.json();
+  preencherPerfil(user);
+}
+
+function preencherPerfil(user) {
+  document.getElementById("nomePerfil").textContent = user.nome;
+  document.getElementById("emailPerfil").textContent = user.email;
+  document.getElementById("tipoUsuario").textContent =
+    user.role === "mentor" ? "Mentor" : "Estudante";
+
+  if (user.role === "mentor") {
+    document.getElementById("labelInfoEspecifica").textContent = "Disponibilidade";
+    document.getElementById("infoEspecifica").textContent =
+      user.disponibilidade ? `${user.disponibilidade.dias.join(", ")} ${user.disponibilidade.horaInicio}-${user.disponibilidade.horaFim}` : "Não cadastrada";
+  } else {
+    document.getElementById("labelInfoEspecifica").textContent = "Série Escolar";
+    document.getElementById("infoEspecifica").textContent = user.serieEscolar;
+  }
+
+    // Áreas de interesse ou conhecimento
+    if (user.role === "estudante") {
+        document.getElementById("labelAreaInteresse").textContent = "Áreas de Interesse:";
+        document.getElementById("areaInteresse").textContent = user.areaInteresse?.join(", ") || "Nenhuma selecionada";
+    } else {
+        document.getElementById("labelAreaInteresse").textContent = "Áreas de Conhecimento:";
+        document.getElementById("areaInteresse").textContent = user.areaConhecimento?.join(", ") || "Nenhuma selecionada";
     }
 
-    function loadProfilePicture() {
-        if (!profileKey || !fotoPerfilEl) return;
-        const savedImage = localStorage.getItem(profileKey);
-        fotoPerfilEl.src = savedImage || "./img/defaultUser.png";
-    }
+    localStorage.setItem("usuario-logado-email", user.email);
 
-    if (fileInputEl) {
-        fileInputEl.addEventListener('change', (e) => {
-            const file = e.target.files[0];
-            if (file) {
-                const reader = new FileReader();
-                reader.onload = (ev) => {
-                    const imageUrl = ev.target.result;
-                    fotoPerfilEl.src = imageUrl;
-                    localStorage.setItem(profileKey, imageUrl);
-                };
-                reader.readAsDataURL(file);
-            }
-        });
-    }
+}
 
-    function carregarDadosPerfil() {
-        const usuarioString = localStorage.getItem("usuario-logado");
-        if (!usuarioString) {
-            window.location.href = "Cadastro.html";
-            return;
+document.addEventListener("DOMContentLoaded", function () {
+    const foto = document.getElementById("fotoPerfil");
+    const fileInput = document.getElementById("fileInput");
+
+    foto.addEventListener("click", () => {
+        fileInput.click();
+    });
+
+    fileInput.addEventListener("change", async function (event) {
+        const file = event.target.files[0];
+        if (!file) return;
+
+        const reader = new FileReader();
+        reader.onload = async function (e) {
+            const imageBase64 = e.target.result;
+
+            foto.src = imageBase64;
+
+            await fetch("/auth/update-photo", {
+                method: "PUT",
+                headers: { "Content-Type": "application/json" },
+                credentials: "include",
+                body: JSON.stringify({ imageBase64 })
+            });
+        };
+
+        reader.readAsDataURL(file);
+    });
+
+
+    const email = localStorage.getItem("usuario-logado-email");
+    if (email) {
+        const savedPhoto = localStorage.getItem(`profile-picture-${email}`);
+        if (savedPhoto) {
+            foto.src = savedPhoto;
         }
-
-        usuarioLogado = JSON.parse(usuarioString);
-        profileKey = 'profile-picture-' + usuarioLogado.email;
-
-        nomePerfilEl.textContent = usuarioLogado.nome || 'Não Informado';
-        emailPerfilEl.textContent = usuarioLogado.email || 'Não Informado';
-        document.getElementById("tipoUsuario").textContent = `(${usuarioLogado.role === 'estudante' ? 'Estudante' : 'Mentor'})`;
-
-        if (usuarioLogado.role === "mentor") {
-            const disp = usuarioLogado.disponibilidade || {};
-            const areas = usuarioLogado.perfil?.areaConhecimento || [];
-            labelInfoEspecificaEl.textContent = 'Disponibilidade';
-            labelAreaInteresseEl.textContent = 'Áreas de Conhecimento';
-            infoEspecificaEl.textContent = disp.dias ? `${disp.dias.join(', ')} das ${disp.horaInicio} às ${disp.horaFim}` : 'Não definida';
-            areaInteresseEl.textContent = areas.join(', ') || 'Nenhuma área selecionada';
-        } else {
-            labelInfoEspecificaEl.textContent = 'Série Escolar';
-            labelAreaInteresseEl.textContent = 'Áreas de Interesse';
-            infoEspecificaEl.textContent = usuarioLogado.serieEscolar || 'Não Informada';
-            areaInteresseEl.textContent = usuarioLogado.perfil?.areaInteresse?.join(', ') || 'Nenhuma área selecionada';
-        }
-
-        loadProfilePicture();
-        carregarDadosMockados();
     }
-
-    function carregarDadosMockados() {
-        if (!usuarioLogado || !listaAgendamentosEl) return;
-        listaAgendamentosEl.innerHTML = '';
-
-        listaAgendamentosEl.innerHTML += `
-            <li class="sessao-card">
-                <span class="sessao-info">
-                    Sessão com **${usuarioLogado.role === 'estudante' ? 'Mentor Teste' : 'Aluno Teste'}** - 
-                    Revisão de ${usuarioLogado.perfil?.areaInteresse?.[0] || 'Tópico Geral'} (15/12/2025 às 10:00)
-                </span>
-                <button onclick="entrarSessao()" class="btn-entrar">Entrar</button>
-                <button onclick="cancelarSessao(this)" class="btn-cancelar">Cancelar</button>
-            </li>
-        `;
-    }
-
-    carregarDadosPerfil();
 });
 
-document.addEventListener('DOMContentLoaded', () => {
-    const btnExplorar = document.querySelector(".btn-explorar");
-
-    if (btnExplorar) {
-        btnExplorar.addEventListener("click", () => {
-            window.location.href = "ListaMentores.html";
-        });
-    }
-});
+carregarUsuario();

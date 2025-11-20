@@ -1,35 +1,25 @@
-document.addEventListener('DOMContentLoaded', () => {
-    const form = document.getElementById("loginForm");
+document.addEventListener("DOMContentLoaded", () => {
+  const form = document.getElementById("loginForm");
 
-    if (form) {
-        form.addEventListener("submit", (e) => {
-            e.preventDefault();
+  form.addEventListener("submit", async (e) => {
+    e.preventDefault();
 
-            const email = document.getElementById("email").value.trim().toLowerCase();
-            const senha = document.getElementById("senha").value.trim();
+    const email = document.getElementById("email").value;
+    const senha = document.getElementById("senha").value;
 
-            if (!email || !senha) {
-                alert("Preencha todos os campos!");
-                return;
-            }
+    const response = await fetch("/auth/login", {
+      method: "POST",
+      credentials: "include",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ email, senha })
+    });
 
-            const userKey = `user-data-${email}`;
-            const usuarioString = localStorage.getItem(userKey);
-
-            if (!usuarioString) {
-                alert("E-mail não cadastrado.");
-                return;
-            }
-
-            const usuarioCadastrado = JSON.parse(usuarioString);
-
-            if (usuarioCadastrado.senha !== senha) {
-                alert("Senha incorreta.");
-                return;
-            }
-
-            localStorage.setItem("usuario-logado", JSON.stringify(usuarioCadastrado));
-            window.location.href = "MeuPerfil.html";
-        });
+    const data = await response.json();
+    if (!response.ok) {
+      alert(data.error);
+      return;
     }
+
+    window.location.href = "/meu-perfil";
+  });
 });

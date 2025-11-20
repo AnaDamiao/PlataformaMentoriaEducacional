@@ -1,40 +1,37 @@
-const { DataTypes } = require("sequelize");
-const sequelize = require("../config/database");
-const bcrypt = require("bcrypt");
+const db = require("../utils/localDB");
 
+class User {
+  static async create(data) {
+    const database = db.getData();
 
-let users = [];
-
-class UserMock {
-  static async create({ nome, email, senha, role, serieEscolar, areaInteresse, areaConhecimento, disponibilidade }) {
     const newUser = {
-      id: users.length + 1,
-      nome,
-      email,
-      senha,
-      role,
-      serieEscolar: role === "estudante" ? (serieEscolar || null) : null,
-      areaInteresse: role === "estudante" ? (areaInteresse || null) : null,
-      areaConhecimento: role === "mentor" ? (areaConhecimento || null) : null,
-      disponibilidade: role === "mentor" ? (disponibilidade || null) : null
+      id: Date.now(),
+      foto: data.foto || null,
+      ...data
     };
-    users.push(newUser);
-    return { ...newUser }; 
+
+    database.users.push(newUser);
+    db.saveData(database);
+    return newUser;
   }
 
   static async findOne({ where }) {
+    const database = db.getData();
+
     if (where.email) {
-      return users.find(u => u.email === where.email) || null;
+      return database.users.find(u => u.email === where.email) || null;
     }
+
     if (where.id) {
-      return users.find(u => u.id === where.id) || null;
+      return database.users.find(u => u.id === where.id) || null;
     }
+
     return null;
   }
 
   static async findAll() {
-    return users.map(u => ({ ...u }));
+    return db.getData().users;
   }
 }
 
-module.exports = UserMock;
+module.exports = User;

@@ -1,4 +1,3 @@
-// src/controllers/authController.js
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const User = require("../models/User");
@@ -13,30 +12,15 @@ exports.register = async (req, res) => {
   try {
     const { nome, email, senha, role, serieEscolar, areaInteresse, areaConhecimento, disponibilidade } = req.body;
 
-    if (!["estudante", "mentor"].includes(role)) {
-      return res.status(400).json({ error: 'Role inválida. Use "estudante" ou "mentor".' });
-    }
+    const existing = await User.findOne({ where: { email } });
+    if (existing) return res.status(400).json({ error: "Usuário já existe" });
 
-    const existingUser = await User.findOne({ where: { email } });
-    if (existingUser) {
-      return res.status(400).json({ error: "Usuário já existe" });
-    }
+    const hashed = await bcrypt.hash(senha, 10);
 
-    if (role === "estudante") {
-      if (!serieEscolar || !areaInteresse) {
-        return res.status(400).json({ error: "Estudante precisa enviar serieEscolar e areaInteresse." });
-      }
-    } else {
-      if (!areaConhecimento || !disponibilidade) {
-        return res.status(400).json({ error: "Mentor precisa enviar areaConhecimento e disponibilidade." });
-      }
-    }
-
-    const hashedPassword = await bcrypt.hash(senha, 10);
     const created = await User.create({
       nome,
       email,
-      senha: hashedPassword,
+      senha: hashed,
       role,
       serieEscolar,
       areaInteresse,
@@ -44,10 +28,9 @@ exports.register = async (req, res) => {
       disponibilidade
     });
 
-    res.status(201).json({ message: "Usuário registrado com sucesso", user: sanitizeUser(created) });
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({ error: "Erro ao registrar usuário" });
+    res.json({ message: "Usuário registrado", user: sanitizeUser(created) });
+  } catch {
+    res.status(500).json({ error: "Erro no registro" });
   }
 };
 
@@ -55,11 +38,10 @@ exports.login = async (req, res) => {
   try {
     const { email, senha } = req.body;
     const user = await User.findOne({ where: { email } });
-
     if (!user) return res.status(404).json({ error: "Usuário não encontrado" });
 
-    const validPassword = await bcrypt.compare(senha, user.senha);
-    if (!validPassword) return res.status(401).json({ error: "Senha inválida" });
+    const valid = await bcrypt.compare(senha, user.senha);
+    if (!valid) return res.status(401).json({ error: "Senha inválida" });
 
     const token = jwt.sign(
       { id: user.id, role: user.role },
@@ -67,9 +49,43 @@ exports.login = async (req, res) => {
       { expiresIn: "1d" }
     );
 
-    res.json({ message: "Login realizado com sucesso", token, user: sanitizeUser(user) });
-  } catch (error) {
-    console.error(error);
+    res.cookie("authToken", token, {
+      httpOnly: true,
+      secure: false,
+      sameSite: "lax",
+      maxAge: 86400000
+    });
+
+    res.json({ message: "Login feito", user: sanitizeUser(user) });
+
+  } catch {
     res.status(500).json({ error: "Erro no login" });
   }
 };
+
+exports.me = async (req, res) => {
+  const user = await User.findOne({ where: { id: req.user.id } });
+  res.json({ user: sanitizeUser(user) });
+};
+
+exports.logout = (req, res) => {
+  res.clearCookie("authToken");
+  res.json({ message: "Logout efetuado" });
+};
+
+exports.updatePhoto = async (req, res) => {
+  const { imageBase64 } = req.body;
+  const user = await User.findOne({ where: { id: req.user.id } });
+
+  if (!user) return res.status(404).json({ error: "Usuário não encontrado" });
+
+  user.foto = imageBase64;
+
+  const database = db.getData();
+  const idx = database.users.findIndex(u => u.id === user.id);
+  database.users[idx] = user;
+  db.saveData(database);
+
+  res.json({ message: "Foto atualizada", foto: imageBase64 });
+};
+
