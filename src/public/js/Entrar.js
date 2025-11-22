@@ -20,6 +20,7 @@ document.addEventListener("DOMContentLoaded", () => {
       return;
     }
 
-    window.location.href = "/meu-perfil";
+    // ⬇⬇⬇ ALTERAÇÃO AQUI
+    window.location.href = "/";
   });
 });

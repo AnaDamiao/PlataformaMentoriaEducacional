@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Perfil do Mentor - Calendário</title>
   <link rel="stylesheet" href="./css/PerfilMentor.css">
+  <link rel="shortcut icon" href="./Favicon/favicon.EM.jpg" type="image/x-icon">
 </head>
 <body>
   <header class="navbar">
@@ -23,7 +24,6 @@
 
     <div class="mentor-info">
       <img id="mentorFoto" src="https://img.icons8.com/color/96/000000/teacher.png" alt="Foto do Mentor">
-      
       <div class="mentor-detalhes">
         <h2 id="mentorNome"></h2> 
         <p id="mentorArea">Área: </p> 
@@ -43,6 +43,7 @@
     </div>
   </section>
 
+  <!-- Modal de Agendamento -->
   <div class="modal" id="scheduleModal">
     <div class="modal-content">
       <span class="close" id="closeModal">&times;</span>
@@ -54,6 +55,9 @@
 
   <div id="popupConfirmacao" class="popup">✅ Sessão agendada com sucesso!</div>
 
+  <!-- Sistema global de agendamento -->
+  <script src="./js/agendamento.js"></script>
+  <!-- Script Perfil Mentor -->
   <script src="./js/PerfilMentor.js"></script>
 </body>
 </html>

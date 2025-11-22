@@ -205,38 +205,75 @@ main.container {
   background: #ffd700;
 }
 
-/* Botão Cancelar */
-.btn-cancelar {
-    background: #ff4d4d;
-    color: white;
+
+/* ------------------------------
+   Botões padronizados mais estreitos
+--------------------------------*/
+button.btn-entrar,
+button.cancel-btn,
+button.btn-excluir,
+button#submitAvaliacao,
+a.btn {
+    padding: 4px 8px; /* ainda mais estreito */
+    font-size: 13px;
     border: none;
-    padding: 0.5rem 1rem;
     border-radius: 6px;
-    font-size: 0.9rem;
-    font-weight: bold;
     cursor: pointer;
-    transition: 0.3s;
+    text-align: center;
+    display: inline-block;
+    min-width: 60px; /* largura mínima reduzida */
+    transition: background-color 0.3s, transform 0.2s;
 }
 
-.btn-cancelar:hover {
-    background: #cc0000;
+/* Cores específicas */
+button.btn-entrar {
+    background-color: #4CAF50; /* verde */
+    color: #fff;
+}
+button.btn-entrar:hover {
+    background-color: #45a049;
+    transform: translateY(-1px);
 }
 
-/* Botão Entrar */
-.btn-entrar {
-    background: #28a745;
-    color: white;
-    border: none;
-    padding: 0.5rem 1rem;
-    border-radius: 6px;
-    font-size: 0.9rem;
-    font-weight: bold;
-    cursor: pointer;
-    transition: 0.3s;
+button.cancel-btn,
+button.btn-excluir {
+    background-color: #f44336; /* vermelho */
+    color: #fff;
+}
+button.cancel-btn:hover,
+button.btn-excluir:hover {
+    background-color: #d7372f;
+    transform: translateY(-1px);
 }
 
-.btn-entrar:hover {
-    background: #1e7e34;
+button#submitAvaliacao {
+    background-color: #2196F3; /* azul para enviar avaliação */
+    color: #fff;
+}
+button#submitAvaliacao:hover {
+    background-color: #1976d2;
+    transform: translateY(-1px);
+}
+
+/* Garante alinhamento igual dentro de listas e cards */
+.item-agendamento button {
+    margin-left: 4px;
+}
+
+/* ------------------------------
+   Botão amarelo de ação principal (Explorar Mentores / Verificar Agenda)
+   Mantém tamanho original
+--------------------------------*/
+a#acaoPerfilBtn.btn {
+    padding: 10px 20px; /* tamanho maior */
+    font-size: 15px;
+    border-radius: 8px;
+    background-color: #ffcc00; /* amarelo */
+    color: #000;
+    text-decoration: none;
+}
+a#acaoPerfilBtn.btn:hover {
+    background-color: #e6b800;
 }
 
 /* Mensagem lista vazia */
@@ -265,4 +302,139 @@ main.container {
 
 .btn-explorar:hover {
     background-color: #FFC107; /* Amarelo mais escuro */
+}
+/* Botão de cancelar agendamento */
+.cancel-btn {
+    background-color: #e74c3c; /* vermelho vivo */
+    color: #fff; /* letras brancas */
+    border: none;
+    border-radius: 5px;
+    padding: 5px 10px;
+    cursor: pointer;
+    font-size: 0.9rem;
+    transition: background-color 0.3s;
+    margin-left: 10px; /* espaçamento em relação ao texto */
+}
+
+.cancel-btn:hover {
+    background-color: #c0392b; /* vermelho mais escuro ao passar o mouse */
+}
+/* Botão Entrar na Sessão */
+.enter-btn {
+    background-color: #28a745; /* verde */
+    color: #fff; /* letras brancas */
+    border: none;
+    padding: 8px 16px;
+    margin-left: 8px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: background-color 0.2s ease;
+}
+
+.enter-btn:hover {
+    background-color: #218838; /* verde mais escuro ao passar o mouse */
+}
+
+.enter-btn:active {
+    background-color: #1e7e34; /* verde ainda mais escuro ao clicar */
+}
+/* ------------------------------
+   Modal Avaliação
+------------------------------ */
+#avaliacaoModal {
+    display: none;
+}
+.modal {
+    display: none; /* Inicialmente escondido */
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto; /* Habilita scroll se necessário */
+    background-color: rgba(0, 0, 0, 0.5); /* Fundo semi-transparente */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.modal-content {
+    background-color: #fff;
+    padding: 20px 25px;
+    border-radius: 12px;
+    width: 90%;
+    max-width: 400px;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+    animation: fadeIn 0.3s ease-out;
+    position: relative;
+}
+
+.modal-content h3 {
+    margin-top: 0;
+    margin-bottom: 15px;
+    text-align: center;
+    font-size: 1.3rem;
+}
+
+.modal-content label {
+    display: block;
+    margin-top: 10px;
+    font-weight: 500;
+}
+
+.modal-content select,
+.modal-content textarea {
+    width: 100%;
+    margin-top: 5px;
+    padding: 8px 10px;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+    font-size: 0.95rem;
+    box-sizing: border-box;
+    resize: vertical;
+}
+
+.modal-content textarea {
+    min-height: 60px;
+}
+
+#submitAvaliacao {
+    margin-top: 15px;
+    width: 100%;
+    padding: 10px 0;
+    border: none;
+    border-radius: 8px;
+    background-color: #28a745; /* Verde */
+    color: #fff;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+#submitAvaliacao:hover {
+    background-color: #218838;
+}
+
+/* Botão fechar (X) */
+.modal-content .close {
+    position: absolute;
+    top: 10px;
+    right: 12px;
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: #555;
+    cursor: pointer;
+    transition: color 0.2s ease;
+}
+
+.modal-content .close:hover {
+    color: #000;
+}
+
+/* Animação do modal */
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-20px); }
+    to { opacity: 1; transform: translateY(0); }
 }

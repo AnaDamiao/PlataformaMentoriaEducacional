@@ -1,19 +1,187 @@
-/* Configuração personalizada para a fonte Inter */
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap');
+/* Reset e base */
 body {
-  font-family: 'Inter', sans-serif;
-  background-color: #f7f9fb; /* Fundo claro para contrastar com o card */
+  min-height: 100vh;
+  margin: 0;
+  padding: 0;
+  background: #f9f9f9;
+  display: flex;
+  flex-direction: column;
+  font-family: Arial, sans-serif;
 }
 
-/* Estilo da barra de navegação superior (somente a cor de fundo) */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* Navbar */
 .navbar {
-  background-color: #1e3a8a; /* Azul escuro */
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 5%;
+  background: #2d6cdf;
   color: white;
 }
 
-/* A classe 'cadastro' garante que o card seja centralizado verticalmente na área visível, 
-   removendo a rolagem indesejada. */
+.navbar .logo {
+  font-size: 1.5rem;
+  font-weight: bold;
+}
+
+.navbar ul {
+  list-style: none;
+  display: flex;
+  gap: 1rem;
+}
+
+.navbar a {
+  color: white;
+  text-decoration: none;
+  transition: 0.3s;
+}
+
+.navbar a:hover {
+  color: #f0db4f;
+}
+
+.btn-login {
+  background: #f0db4f;
+  padding: 0.4rem 0.8rem;
+  border-radius: 8px;
+  font-weight: bold;
+  color: #333 !important;
+}
+
+/* CADASTRO CARD */
 .cadastro {
-    /* min-height: 100vh - 72px (altura da navbar) */
-    min-height: calc(100vh - 72px); 
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: calc(100vh - 120px);
+  padding: 2rem;
+}
+
+.form-card {
+  background: white;
+  padding: 2rem 2.4rem;
+  border-radius: 16px;
+  width: 100%;
+  max-width: 430px;
+  box-shadow: 0px 6px 14px rgba(0,0,0,0.15);
+}
+
+.form-card h2 {
+  text-align: center;
+  margin-bottom: 1.5rem;
+  font-size: 1.6rem;
+  color: #333;
+}
+
+/* Campos */
+.form-group {
+  margin-bottom: 1rem;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 0.4rem;
+  font-weight: bold;
+  color: #333;
+}
+
+.form-group input {
+  width: 100%;
+  padding: 0.7rem;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  outline: none;
+  transition: 0.3s;
+}
+
+.form-group input:focus {
+  border-color: #2d6cdf;
+  box-shadow: 0 0 6px rgba(45,108,223,0.4);
+}
+
+/* Radio group */
+.radio-group {
+  display: flex;
+  gap: 1rem;
+  margin-top: 0.3rem;
+}
+
+.radio-group label {
+  font-size: 0.95rem;
+  color: #444;
+}
+
+/* Disponibilidade */
+.dias-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 6px;
+  margin-bottom: 1rem;
+}
+
+.horarios {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.horarios label {
+  font-size: 0.9rem;
+}
+
+/* Botão */
+.btn {
+  width: 100%;
+  padding: 0.8rem;
+  background: #f0db4f;
+  color: #333;
+  border: none;
+  border-radius: 10px;
+  font-weight: bold;
+  cursor: pointer;
+  font-size: 1rem;
+  margin-top: 0.5rem;
+  transition: 0.3s;
+}
+
+.btn:hover {
+  background: #ffd700;
+}
+
+.hidden {
+  display: none;
+}
+
+/* Centralizar o card (HTML usa .login, não .cadastro) */
+.login {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: calc(100vh - 120px);
+  padding: 2rem;
+}
+
+/* Deixar o card mais largo para caber os dias */
+.form-card {
+  background: white;
+  padding: 2rem 2.4rem;
+  border-radius: 16px;
+  width: 100%;
+  max-width: 600px; /* AQUI AUMENTEI O LARGURA */
+  box-shadow: 0px 6px 14px rgba(0,0,0,0.15);
+}
+
+/* Deixar os dias em uma linha só */
+.dias-grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr); /* 7 dias em 1 linha */
+  gap: 10px;
+  margin-bottom: 1rem;
+  text-align: center;
 }

@@ -5,13 +5,18 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Plataforma de Mentorias</title>
   <link rel="stylesheet" href="./css/HomePage.css">
+  <link rel="shortcut icon" href="./Favicon/favicon.EM.jpg" type="image/x-icon">
 </head>
 <body>
+
   <!-- Navbar -->
   <header class="navbar">
-    <div class="logo"><a href="/">EduMentor</a></li></div>
+    <div class="logo">
+      <a href="/">EduMentor</a>
+    </div>
+
     <nav>
-      <ul>
+      <ul class="menu">
         <li><a href="/login">Entrar</a></li>
         <li><a href="/cadastro" class="btn-login">Cadastre-se</a></li>
       </ul>
@@ -21,47 +26,108 @@
   <!-- Hero -->
   <section class="hero">
     <div class="hero-text">
-      <h1>Conectando alunos e mentores</h1>
-      <p>Aprenda com os melhores professores, no seu ritmo e onde estiver.</p>
+      <h1 class="hero-title">Conectando alunos e mentores</h1>
+      <p class="hero-subtitle">Aprenda com os melhores professores, no seu ritmo e onde estiver.</p>
       <a href="/listaMentores" class="btn">Explorar Mentores</a>
+
+      <!-- Card do mentor (aparece apenas para mentores logados) -->
+      <a id="mentor-agendamentos" class="btn-mentor-card" href="/MeuPerfil.html" style="display:none;">
+        <h3>Próximas Sessões</h3>
+        <ul id="lista-proximas-sessoes"></ul>
+      </a>
     </div>
   </section>
 
   <!-- Benefícios -->
-  <section class="benefits">
+  <section class="benefits" id="beneficios">
     <h2>Por que escolher a EduMentor?</h2>
+
     <div class="cards">
       <div class="card">
         <h3>Aulas personalizadas</h3>
         <p>Mentorias feitas sob medida para você.</p>
       </div>
+
       <div class="card">
         <h3>Flexibilidade</h3>
         <p>Agende no melhor horário para sua rotina.</p>
       </div>
-     
+    </div>
   </section>
-
 
   <!-- Footer -->
   <footer>
     <p>© 2025 EduMentor - Todos os direitos reservados</p>
   </footer>
 
+  <!-- Scripts -->
   <script src="./js/PerfilMentor.js"></script>
   <script src="/js/logout.js"></script>
 
   <script>
     async function verificarLogin() {
       const res = await fetch("/auth/me", { credentials: "include" });
-
       const nav = document.querySelector(".navbar ul");
 
       if (res.ok) {
+        const { user } = await res.json();
+
+        /* Header logado */
         nav.innerHTML = `
-          <li><a href="/meu-perfil">Meu Perfil</a></li>
+          <li><a href="/MeuPerfil.html">Meu Perfil</a></li>
           <li><button class="btn-login" onclick="logout()">Sair</button></li>
         `;
+
+        /* Troca imagem do HERO */
+        const hero = document.querySelector(".hero");
+        hero.style.backgroundImage =
+          'url("https://images.unsplash.com/photo-1501504905252-473c47e087f8?auto=format&fit=crop&w=1400&q=80")';
+        hero.style.minHeight = `calc(100vh - ${document.querySelector('.navbar').offsetHeight}px)`;
+
+        /* Ajuste do subtítulo */
+        document.querySelector(".hero-subtitle").innerText = "Vamos começar a jornada";
+
+        /* Esconde seção de benefícios */
+        document.getElementById("beneficios").style.display = "none";
+
+        /* Seleciona título e botão do card */
+        const title = document.querySelector(".hero-title");
+        const btn = document.querySelector(".hero-text a.btn");
+        const cardMentor = document.getElementById("mentor-agendamentos");
+        const lista = document.getElementById("lista-proximas-sessoes");
+
+        if (user.role === "mentor") {
+          title.innerText = "Bem-vindo, mentor!";
+          btn.style.display = "none"; // Esconde botão "Explorar Mentores"
+          cardMentor.style.display = "block";
+
+          // Função para atualizar as próximas sessões
+          function atualizarProximasSessoes() {
+            const agendamentos = JSON.parse(localStorage.getItem("agendamentos")) || [];
+            const proximas = agendamentos
+              .filter(a => a.mentorEmail === user.email && !a.avaliacao)
+              .sort((a,b) => new Date(a.data + ' ' + a.hora) - new Date(b.data + ' ' + b.hora))
+              .slice(0,3);
+
+            if (proximas.length === 0) {
+              lista.innerHTML = '<li>Nenhuma sessão agendada.</li>';
+            } else {
+              lista.innerHTML = proximas.map(a => `<li>${a.alunoNome} - ${a.data} às ${a.hora}</li>`).join('');
+            }
+          }
+
+          // Atualiza assim que a página carrega
+          atualizarProximasSessoes();
+
+          // Atualiza sempre que houver mudança no localStorage
+          window.addEventListener('storage', atualizarProximasSessoes);
+        } else {
+          title.innerText = "Bem-vindo, aluno!";
+          btn.style.display = "inline-block";
+          btn.textContent = "Explorar Mentores";
+          btn.href = "/listaMentores";
+          cardMentor.style.display = "none";
+        }
       }
     }
 

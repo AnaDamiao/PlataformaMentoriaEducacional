@@ -1,133 +1,90 @@
 <!DOCTYPE html>
-
 <html lang="pt-BR">
-
 <head>
-
     <meta charset="UTF-8">
-
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
     <title>Meu Perfil - EduMentor</title>
-
     <link rel="stylesheet" href="./css/meuPerfil.css">
-
+    <link rel="shortcut icon" href="./Favicon/favicon.EM.jpg" type="image/x-icon">
 </head>
-
 <body>
 
-
-
-    <!-- Navbar -->
-
+    <!-- Navbar -->             
     <nav class="navbar">
-
         <h1 class="logo"><a href="/">EduMentor</a></h1>
-
         <ul class="menu">
-
             <li><a href="/">Início</a></li>
-
             <li><a href="#" onclick="logout()">Sair</a></li>
-
         </ul>
-
     </nav>
 
-
-
     <!-- Container Principal -->
-
     <main class="container">
 
-
-
         <section class="perfil-card">
-
-
-
-            <!-- Título -->
-
             <h2>Meu Perfil</h2>
 
-
-
-            <!-- Foto de Perfil -->
-
             <div class="foto-perfil" id="fotoPerfilContainer">
-
                 <img id="fotoPerfil" src="./img/defaultUser.png" alt="Foto do Usuário">
-
                 <input type="file" id="fileInput" accept="image/*" style="display: none;">
-
             </div>
-
-
-
-            <!-- Info Principal (nome e tipo) -->
 
             <div class="usuario-info-principal">
-
                 <h3 id="nomeUsuario" class="nome-usuario"></h3>
-
                 <p id="tipoUsuario" class="tipo-usuario"></p>
-
             </div>
-
-
-
-            <!-- Card de Dados -->
 
             <div class="info-card">
-
                 <h3 class="info-card-title">Dados</h3>
-
                 <p><strong>Nome completo:</strong> <span id="nomePerfil"></span></p>
-
                 <p><strong>Email:</strong> <span id="emailPerfil"></span></p>
-
                 <p><strong id="labelInfoEspecifica">Série Escolar:</strong> <span id="infoEspecifica"></span></p>
-
                 <p><strong id="labelAreaInteresse">Áreas de Interesse:</strong> <span id="areaInteresse"></span></p>
-
             </div>
-            <!-- Botão Explorar Mentores -->
+
             <div class="explorar-mentores-container">
-                <a href="/listaMentores" class="btn">Explorar Mentores</a>
+                <a id="acaoPerfilBtn" href="#" class="btn">Carregando...</a>
             </div>
-
-            <!-- Agendamentos -->
 
             <div class="agendamentos">
-
                 <h3>Próximos Agendamentos</h3>
-
                 <ul id="lista-agendamentos">
-
-                    <li id="msgAgendamentoVazio" class="sessao-vazia">Nenhum agendamento futuro.</li>
-
+                    <li class="sessao-vazia">Nenhum agendamento futuro.</li>
                 </ul>
-
             </div>
 
-
-
-            <!-- Histórico de Sessões -->
-
             <div class="historico">
-
                 <h3>Histórico de Sessões</h3>
                 <ul id="lista-historico"></ul>
-
             </div>
         </section>
     </main>
 
+    <!-- Modal de Avaliação -->
+    <div class="modal" id="avaliacaoModal">
+        <div class="modal-content">
+            <span class="close" id="closeAvaliacaoModal">&times;</span>
+            <h3>Avalie sua sessão</h3>
+            <div>
+                <label>Estrelas:</label>
+                <select id="avaliacaoEstrelas">
+                    <option value="1">1 ⭐</option>
+                    <option value="2">2 ⭐⭐</option>
+                    <option value="3">3 ⭐⭐⭐</option>
+                    <option value="4">4 ⭐⭐⭐⭐</option>
+                    <option value="5">5 ⭐⭐⭐⭐⭐</option>
+                </select>
+            </div>
+            <div>
+                <label>Comentário:</label>
+                <textarea id="avaliacaoComentario" rows="3" placeholder="Deixe um comentário"></textarea>
+            </div>
+            <button id="submitAvaliacao" class="btn-verde">Enviar Avaliação</button>
+        </div>
+    </div>
 
-
+    <script src="./js/agendamento.js"></script>
     <script src="./js/MeuPerfil.js"></script>
     <script src="/js/logout.js"></script>
-
 </body>
-
 </html>
