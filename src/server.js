@@ -47,7 +47,29 @@ app.get("/mentores", async (req, res) => {
     res.status(500).json({ error: "Erro ao carregar mentores" });
   }
 });
-app.listen(3000, () => console.log("Servidor rodando na porta 3000"));
+
+app.get("/mentores/:id", async (req, res) => {
+  try {
+    const { id } = req.params;
+    const users = await User.findAll();
+
+    const mentor = users.find(
+      u => u.role === "mentor" && String(u.id) === String(id)
+    );
+
+    if (!mentor) {
+      return res.status(404).json({ error: "Mentor não encontrado" });
+    }
+
+    res.json(mentor);
+
+  } catch (err) {
+    res.status(500).json({ error: "Erro ao buscar mentor por ID" });
+  }
+});
 
 app.put("/auth/update-photo", authMiddleware, authController.updatePhoto);
+
+app.listen(3000, () => console.log("Servidor rodando na porta 3000"));
+
 

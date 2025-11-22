@@ -39,6 +39,19 @@
         "horaInicio": "18:00",
         "horaFim": "22:00"
       }
+    },
+    {
+      "id": 1763777385572,
+      "foto": null,
+      "nome": "Aluno",
+      "email": "aluno@gmail.com",
+      "senha": "$2b$10$zle8DbPxb3E/DY4.oUUuD.CCzlL9gOBl/x0GsEN25j/W1xgALEyvC",
+      "role": "estudante",
+      "serieEscolar": "2° ANO ",
+      "areaInteresse": [
+        "Inglês",
+        "Design"
+      ]
     }
   ],
   "sessions": []

@@ -185,6 +185,26 @@ main.container {
     box-shadow: 0 2px 6px rgba(0,0,0,0.05);
 }
 
+.explorar-mentores-container{
+    display: flex;
+    margin-bottom: 30px;
+}
+
+.btn {
+  display: inline-block;
+  padding: 0.6rem 1.2rem;
+  background: #f0db4f;
+  color: #333;
+  border-radius: 10px;
+  font-weight: bold;
+  text-decoration: none;
+  transition: 0.3s;
+}
+
+.btn:hover {
+  background: #ffd700;
+}
+
 /* Botão Cancelar */
 .btn-cancelar {
     background: #ff4d4d;
