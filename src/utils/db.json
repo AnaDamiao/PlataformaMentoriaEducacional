@@ -225,6 +225,28 @@
         "horaInicio": "08:00",
         "horaFim": "10:00"
       }
+    },
+    {
+      "id": 1764117581003,
+      "foto": null,
+      "nome": "Breno Costa",
+      "email": "breno@gmail.com",
+      "senha": "$2b$10$EtxnCcO3WWMP0v65HbRhXuVK32cl11BcTwKfNsc7S/2W8qPZCTw5K",
+      "role": "mentor",
+      "areaConhecimento": [
+        "Design",
+        "Arte",
+        "Geografia"
+      ],
+      "disponibilidade": {
+        "dias": [
+          "Segunda",
+          "Terça",
+          "Quarta"
+        ],
+        "horaInicio": "10:00",
+        "horaFim": "19:00"
+      }
     }
   ],
   "sessions": []

@@ -1,6 +1,13 @@
-// ------------------------------
-// Sistema de Agendamentos
-// ------------------------------
+// ------------------------------ 
+// VARIÁVEIS GLOBAIS / CONSTANTES DO MODAL
+// ------------------------------ 
+const modal = document.getElementById("avaliacaoModal");
+const closeModal = document.getElementById("closeAvaliacaoModal");
+const submitAvaliacao = document.getElementById("submitAvaliacao");
+
+// ------------------------------ 
+// 1. UTILIDADES DO LOCAL STORAGE 
+// ------------------------------ 
 function getAgendamentos() {
     return JSON.parse(localStorage.getItem("agendamentos")) || [];
 }
@@ -9,27 +16,48 @@ function salvarAgendamentos(lista) {
     localStorage.setItem("agendamentos", JSON.stringify(lista));
 }
 
-// ------------------------------
-// Carregar dados do usuário
-// ------------------------------
+function cancelarAgendamento(id) {
+    let lista = getAgendamentos();
+    lista = lista.filter(a => a.id !== id);
+    salvarAgendamentos(lista);
+}
+
+function excluirHistorico(id, user) {
+    let lista = getAgendamentos();
+    lista = lista.filter(a => a.id !== id);
+    salvarAgendamentos(lista);
+    carregarHistorico(user);
+}
+
+// ------------------------------ 
+// 2. FUNÇÕES DE PERFIL E CARREGAMENTO
+// ------------------------------ 
 async function carregarUsuario() {
+    // Busca os dados do usuário logado
     const response = await fetch("/auth/me", { credentials: "include" });
-    if (!response.ok) { window.location.href = "/login"; return; }
+
+    if (!response.ok) {
+        window.location.href = "/login";
+        return;
+    }
 
     const { user } = await response.json();
+    
+    // Salva o email logado
+    localStorage.setItem("usuario-logado-email", user.email); 
+    
     preencherPerfil(user);
     carregarAgendamentos(user);
     carregarHistorico(user);
 }
 
-// ------------------------------
-// Preencher perfil
-// ------------------------------
 function preencherPerfil(user) {
+    document.getElementById("nomeUsuario").textContent = user.nome; 
     document.getElementById("nomePerfil").textContent = user.nome;
     document.getElementById("emailPerfil").textContent = user.email;
     document.getElementById("tipoUsuario").textContent = user.role === "mentor" ? "Mentor" : "Estudante";
 
+    // Lógica para dados específicos (Série/Disponibilidade)
     if (user.role === "mentor") {
         document.getElementById("labelInfoEspecifica").textContent = "Disponibilidade";
         document.getElementById("infoEspecifica").textContent = user.disponibilidade
@@ -40,52 +68,46 @@ function preencherPerfil(user) {
         document.getElementById("infoEspecifica").textContent = user.serieEscolar;
     }
 
-    if (user.role === "estudante") {
-        document.getElementById("labelAreaInteresse").textContent = "Áreas de Interesse:";
-        document.getElementById("areaInteresse").textContent = user.areaInteresse?.join(", ") || "Nenhuma selecionada";
-    } else {
-        document.getElementById("labelAreaInteresse").textContent = "Áreas de Conhecimento:";
-        document.getElementById("areaInteresse").textContent = user.areaConhecimento?.join(", ") || "Nenhuma selecionada";
-    }
+    // Lógica para Áreas de Interesse/Conhecimento
+    const labelArea = user.role === "estudante" ? "Áreas de Interesse:" : "Áreas de Conhecimento:";
+    document.getElementById("labelAreaInteresse").textContent = labelArea;
+    const areas = user.role === "estudante" ? user.areaInteresse : user.areaConhecimento;
+    document.getElementById("areaInteresse").textContent = areas?.join(", ") || "Nenhuma selecionada";
 
+    // Lógica do botão
     const botao = document.getElementById("acaoPerfilBtn");
     if (user.role === "mentor") {
-        botao.style.display = "none"; // Mentores não terão botão
+        botao.style.display = "none";
     } else {
         botao.style.display = "inline-block";
         botao.textContent = "Explorar Mentores";
         botao.href = "/listaMentores";
     }
-
-    localStorage.setItem("usuario-logado-email", user.email);
 }
 
-// ------------------------------
-// Carregar agendamentos futuros
-// ------------------------------
+
+// ------------------------------ 
+// 3. CARREGAMENTO DE AGENDAMENTOS E HISTÓRICO
+// ------------------------------ 
 function carregarAgendamentos(user) {
     const listaEl = document.getElementById("lista-agendamentos");
     listaEl.innerHTML = '';
 
-    let agendamentos = getAgendamentos().filter(a => 
-        !a.avaliacao && 
-        (user.role === "mentor" ? a.mentorEmail === user.email : a.alunoEmail === user.email)
+    let agendamentos = getAgendamentos().filter(
+        a => !a.avaliacao && (user.role === "mentor" ? a.mentorEmail === user.email : a.alunoEmail === user.email)
     );
 
-    if (!agendamentos.length) { 
+    if (!agendamentos.length) {
         listaEl.innerHTML = `<li class="sessao-vazia">Nenhum agendamento futuro.</li>`;
-        return; 
+        return;
     }
 
     agendamentos.forEach(a => {
         const li = document.createElement("li");
         li.className = "item-agendamento";
-        li.innerHTML = `
-            Sessão com ${user.role === "mentor" ? "aluno" : "mentor"} "${user.role === "mentor" ? a.alunoNome : a.mentorNome}" - ${a.data} às ${a.hora}
-            <button class="btn-vermelho cancel-btn" data-id="${a.id}">Cancelar</button>
-        `;
+        li.innerHTML = `Sessão com ${user.role === "mentor" ? "aluno" : "mentor"} "${user.role === "mentor" ? a.alunoNome : a.mentorNome}" - ${a.data} às ${a.hora} 
+            <button class="btn-vermelho cancel-btn" data-id="${a.id}">Cancelar</button>`;
         listaEl.appendChild(li);
-
         criarBotaoEntrarEAvaliar(a, li, user);
     });
 
@@ -98,75 +120,12 @@ function carregarAgendamentos(user) {
     });
 }
 
-// ------------------------------
-// Botão Entrar + modal ao fechar a call
-// ------------------------------
-function criarBotaoEntrarEAvaliar(agendamento, container, user) {
-    const btn = document.createElement("button");
-    btn.className = "join-session-btn btn-entrar";
-    btn.textContent = "Entrar";
-    container.appendChild(btn);
-
-    btn.addEventListener("click", () => {
-        const meetLink = agendamento.meetLink || "https://meet.google.com/ziv-kkmn-ggp";
-        const win = window.open(meetLink, "_blank", "width=800,height=600");
-
-        // Modal de avaliação só para alunos
-        if (user.role === "estudante") {
-            const timer = setInterval(() => {
-                if (win.closed) {
-                    clearInterval(timer);
-                    if (!agendamento.avaliacao) abrirModalAvaliacao(agendamento, user);
-                }
-            }, 500);
-        }
-    });
-}
-
-// ------------------------------
-// Modal de Avaliação
-// ------------------------------
-const modal = document.getElementById("avaliacaoModal");
-const closeModal = document.getElementById("closeAvaliacaoModal");
-const submitAvaliacao = document.getElementById("submitAvaliacao");
-
-function abrirModalAvaliacao(agendamento, user) {
-    document.getElementById("avaliacaoEstrelas").value = "5";
-    document.getElementById("avaliacaoComentario").value = "";
-
-    modal.style.display = "flex";
-
-    submitAvaliacao.onclick = () => {
-        const estrelas = document.getElementById("avaliacaoEstrelas").value;
-        const comentario = document.getElementById("avaliacaoComentario").value;
-
-        agendamento.avaliacao = estrelas;
-        agendamento.comentario = comentario;
-
-        let lista = getAgendamentos();
-        lista = lista.map(a => a.id === agendamento.id ? agendamento : a);
-        salvarAgendamentos(lista);
-
-        modal.style.display = "none";
-
-        carregarAgendamentos(user);
-        carregarHistorico(user);
-    };
-}
-
-// Fechar modal
-closeModal.onclick = () => modal.style.display = "none";
-window.onclick = e => { if (e.target === modal) modal.style.display = "none"; };
-
-// ------------------------------
-// Histórico de sessões + botão excluir
-// ------------------------------
 function carregarHistorico(user) {
     const listaEl = document.getElementById("lista-historico");
     listaEl.innerHTML = '';
 
-    let agendamentos = getAgendamentos().filter(a => a.avaliacao &&
-        (user.role === "mentor" ? a.mentorEmail === user.email : a.alunoEmail === user.email)
+    let agendamentos = getAgendamentos().filter(
+        a => a.avaliacao && (user.role === "mentor" ? a.mentorEmail === user.email : a.alunoEmail === user.email)
     );
 
     if (!agendamentos.length) {
@@ -177,11 +136,9 @@ function carregarHistorico(user) {
     agendamentos.forEach(a => {
         const li = document.createElement("li");
         li.className = "item-agendamento";
-        li.innerHTML = `
-            Sessão com ${user.role === "mentor" ? "aluno" : "mentor"} "${user.role === "mentor" ? a.alunoNome : a.mentorNome}" - ${a.data} às ${a.hora}<br>
-            Avaliação: ${a.avaliacao} ⭐<br>
-            Comentário: ${a.comentario}
-        `;
+        li.innerHTML = `Sessão com ${user.role === "mentor" ? "aluno" : "mentor"} "${user.role === "mentor" ? a.alunoNome : a.mentorNome}" - ${a.data} às ${a.hora}<br> 
+            Avaliação: ${a.avaliacao} ⭐<br> 
+            Comentário: ${a.comentario}`;
 
         const btnExcluir = document.createElement("button");
         btnExcluir.className = "btn-vermelho btn-excluir";
@@ -195,29 +152,96 @@ function carregarHistorico(user) {
     });
 }
 
-function excluirHistorico(id, user) {
-    let lista = getAgendamentos();
-    lista = lista.filter(a => a.id !== id);
-    salvarAgendamentos(lista);
-    carregarHistorico(user);
+
+// ------------------------------ 
+// 4. LÓGICA DO MODAL (FORÇAR AVALIAÇÃO)
+// ------------------------------ 
+function criarBotaoEntrarEAvaliar(agendamento, container, user) {
+    const btn = document.createElement("button");
+    btn.className = "join-session-btn btn-entrar";
+    btn.textContent = "Entrar";
+    container.appendChild(btn);
+
+    btn.addEventListener("click", () => {
+        const meetLink = agendamento.meetLink || "https://meet.google.com/ziv-kkmn-ggp";
+        const win = window.open(meetLink, "_blank", "width=800,height=600");
+
+        if (user.role === "estudante") {
+            const timer = setInterval(() => {
+                if (win.closed) {
+                    clearInterval(timer);
+                    if (!agendamento.avaliacao) abrirModalAvaliacao(agendamento, user);
+                }
+            }, 500);
+        }
+    });
 }
 
-// ------------------------------
-// Cancelar agendamento
-// ------------------------------
-function cancelarAgendamento(id) {
-    let lista = getAgendamentos();
-    lista = lista.filter(a => a.id !== id);
-    salvarAgendamentos(lista);
+function abrirModalAvaliacao(agendamento, user) {
+    document.getElementById("avaliacaoEstrelas").value = "5";
+    document.getElementById("avaliacaoComentario").value = "";
+    modal.style.display = "flex";
+
+    // IMPEDE o fechamento do modal por qualquer meio, exceto o submit
+    closeModal.onclick = null;
+    closeModal.style.display = 'none'; 
+    window.onclick = e => {
+        if (e.target === modal) {
+            // Não faz nada, forçando o submit.
+        }
+    };
+
+    submitAvaliacao.onclick = () => {
+        const estrelas = document.getElementById("avaliacaoEstrelas").value;
+        const comentario = document.getElementById("avaliacaoComentario").value;
+
+        // Salva a avaliação
+        agendamento.avaliacao = estrelas;
+        agendamento.comentario = comentario;
+
+        let lista = getAgendamentos();
+        lista = lista.map(a => a.id === agendamento.id ? agendamento : a);
+        salvarAgendamentos(lista);
+
+        // Fecha o modal e restaura o comportamento do clique fora
+        modal.style.display = "none";
+        window.onclick = e => { 
+            if (e.target === modal) modal.style.display = "none"; 
+        };
+        
+        carregarAgendamentos(user);
+        carregarHistorico(user);
+    };
 }
 
-// ------------------------------
-// Upload de foto
-// ------------------------------
+
+// ------------------------------ 
+// 5. CARREGAMENTO E UPLOAD DE FOTO (FINALIZADO COM ISOLAMENTO DE SOBRESCRITA)
+// ------------------------------ 
 document.addEventListener("DOMContentLoaded", () => {
     const foto = document.getElementById("fotoPerfil");
     const fileInput = document.getElementById("fileInput");
 
+    // 1. Tenta obter o email
+    const emailLogado = localStorage.getItem("usuario-logado-email");
+    let fotoCarregada = false;
+
+    // A. Tenta carregar a foto salva do localStorage (PRIORIDADE MÁXIMA)
+    if (emailLogado) {
+        const savedPhoto = localStorage.getItem(`profile-picture-${emailLogado}`);
+        if (savedPhoto) {
+            foto.src = savedPhoto;
+            fotoCarregada = true;
+        }
+    }
+    
+    // B. Se a foto não foi carregada do storage, aplica a imagem padrão
+    if (!fotoCarregada) {
+        foto.src = "./img/defaultUser.png"; 
+    }
+    // =========================================================================
+
+    // C. Configura o evento de clique para upload
     foto.addEventListener("click", () => fileInput.click());
 
     fileInput.addEventListener("change", async function (event) {
@@ -227,24 +251,30 @@ document.addEventListener("DOMContentLoaded", () => {
         const reader = new FileReader();
         reader.onload = async function (e) {
             const imageBase64 = e.target.result;
-            foto.src = imageBase64;
+            foto.src = imageBase64; // Atualiza visualmente imediatamente
 
-            await fetch("/auth/update-photo", {
+            // 1. Envia para o servidor
+            const response = await fetch("/auth/update-photo", {
                 method: "PUT",
                 headers: { "Content-Type": "application/json" },
                 credentials: "include",
                 body: JSON.stringify({ imageBase64 })
             });
-        };
 
+            // 2. Se o servidor confirmar, salva no localStorage
+            if (response.ok) {
+                const emailAtualizado = localStorage.getItem("usuario-logado-email"); 
+                if (emailAtualizado) { 
+                    localStorage.setItem(`profile-picture-${emailAtualizado}`, imageBase64);
+                    console.log("Foto de perfil salva no servidor e no localStorage.");
+                }
+            } else {
+                 console.error("Falha ao salvar a foto no servidor.");
+            }
+        };
         reader.readAsDataURL(file);
     });
 
-    const email = localStorage.getItem("usuario-logado-email");
-    if (email) {
-        const savedPhoto = localStorage.getItem(`profile-picture-${email}`);
-        if (savedPhoto) foto.src = savedPhoto;
-    }
-
+    // D. Carrega o restante dos dados do usuário
     carregarUsuario();
 });
