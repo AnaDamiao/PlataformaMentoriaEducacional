@@ -1,6 +1,10 @@
 const Session = require("../models/Session");
 const User = require("../models/User");
 
+const oauth2Client = require("../google");
+const { google } = require("googleapis");
+const db = require("../utils/localDB");
+
 exports.addAvailability = async (req, res) => {
   const { mentorId, horario } = req.body;
   const mentor = await User.findOne({ where: { id: mentorId } });
@@ -49,4 +53,54 @@ exports.completeSession = async (req, res) => {
 
 exports.listSessions = async (req, res) => {
   res.json(await Session.findAll());
+};
+
+exports.createMeet = async (req, res) => {
+    const { mentorId, estudanteId, data, hora } = req.body;
+
+    try {
+        const tokens = require("../google-tokens.json");
+        oauth2Client.setCredentials(tokens);
+
+        const calendar = google.calendar({ version: "v3", auth: oauth2Client });
+
+        const event = {
+            summary: "Sessão EduMentor",
+            start: { dateTime: `${data}T${hora}:00-03:00` },
+            end: { dateTime: `${data}T${hora}:00-03:00` },
+            conferenceData: {
+                createRequest: {
+                    requestId: Date.now().toString(),
+                    conferenceSolutionKey: { type: "hangoutsMeet" }
+                }
+            }
+        };
+
+        const response = await calendar.events.insert({
+            calendarId: "primary",
+            resource: event,
+            conferenceDataVersion: 1
+        });
+
+        const meetLink = response.data.hangoutLink;
+
+        // salvar no db.json
+        const session = await Session.create({
+            mentorId,
+            estudanteId,
+            horario: `${data} ${hora}`,
+            status: "confirmada",
+            meetLink
+        });
+
+        res.json({
+            message: "Meet criado com sucesso!",
+            meetLink,
+            session
+        });
+
+    } catch (e) {
+        console.log(e);
+        res.status(500).json({ error: "Erro ao criar reunião" });
+    }
 };

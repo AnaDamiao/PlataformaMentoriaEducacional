@@ -19,7 +19,7 @@ function gerarLinkMeet() {
 }
 
 // Cria novo agendamento
-function criarAgendamento(mentorEmail, mentorNome, alunoEmail, alunoNome, data, hora) {
+function criarAgendamento(mentorEmail, mentorNome, alunoEmail, alunoNome, data, hora, meetLinkReal) {
     const lista = getAgendamentos();
 
     const novo = {
@@ -30,7 +30,7 @@ function criarAgendamento(mentorEmail, mentorNome, alunoEmail, alunoNome, data, 
         alunoNome,
         data,
         hora,
-        linkMeet: gerarLinkMeet()
+        meetLink: meetLinkReal   // ✔ usa o link retornado pelo backend
     };
 
     lista.push(novo);
