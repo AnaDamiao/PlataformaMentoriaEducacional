@@ -249,5 +249,70 @@
       }
     }
   ],
-  "sessions": []
+  "sessions": [
+    {
+      "id": 1764113248240,
+      "mentorId": "1763664786912",
+      "estudanteId": "aluno@gmail.com",
+      "horario": "2025-11-25 19:00",
+      "status": "confirmada",
+      "meetLink": "https://meet.google.com/owf-sacj-woc"
+    },
+    {
+      "id": 1764113438471,
+      "mentorId": "1763664786912",
+      "estudanteId": "aluno@gmail.com",
+      "horario": "2025-11-25 19:00",
+      "status": "confirmada",
+      "meetLink": "https://meet.google.com/kqh-ocir-nwn"
+    },
+    {
+      "id": 1764113442593,
+      "mentorId": "1763664786912",
+      "estudanteId": "aluno@gmail.com",
+      "horario": "2025-11-25 19:00",
+      "status": "confirmada",
+      "meetLink": "https://meet.google.com/vpd-rrbw-rkb"
+    },
+    {
+      "id": 1764113469837,
+      "mentorId": "1763663729826",
+      "estudanteId": "aluno@gmail.com",
+      "horario": "2025-11-26 19:00",
+      "status": "confirmada",
+      "meetLink": "https://meet.google.com/bpp-ibnx-dob"
+    },
+    {
+      "id": 1764113472774,
+      "mentorId": "1763663729826",
+      "estudanteId": "aluno@gmail.com",
+      "horario": "2025-11-26 21:00",
+      "status": "confirmada",
+      "meetLink": "https://meet.google.com/mgp-ijdr-fgj"
+    },
+    {
+      "id": 1764113472791,
+      "mentorId": "1763663729826",
+      "estudanteId": "aluno@gmail.com",
+      "horario": "2025-11-26 19:00",
+      "status": "confirmada",
+      "meetLink": "https://meet.google.com/hwr-dmnd-qju"
+    },
+    {
+      "id": 1764113472843,
+      "mentorId": "1763663729826",
+      "estudanteId": "aluno@gmail.com",
+      "horario": "2025-11-26 21:00",
+      "status": "confirmada",
+      "meetLink": "https://meet.google.com/obv-xkvq-jhs"
+    },
+    {
+      "id": 1764113599830,
+      "mentorId": "1763664786912",
+      "estudanteId": "aluno@gmail.com",
+      "horario": "2025-11-25 19:00",
+      "status": "confirmada",
+      "meetLink": "https://meet.google.com/zab-vfpp-qou"
+    }
+  ]
 }

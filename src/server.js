@@ -1,3 +1,5 @@
+require("dotenv").config();
+
 const express = require("express");
 const cors = require("cors");
 const cookieParser = require("cookie-parser");
@@ -5,6 +7,7 @@ const path = require("path");
 const authMiddleware = require("./middlewares/authMiddleware");
 const authController = require("./controllers/authController");
 const authRoutes = require("./routes/authRoutes");
+const authGoogleRoutes = require("./routes/authGoogle");
 const sessionRoutes = require("./routes/sessionRoutes");
 const User = require("./models/User");
 
@@ -20,6 +23,7 @@ app.use(express.json());
 app.use(express.static(path.join(__dirname, "public")));
 
 app.use("/auth", authRoutes);
+app.use("/auth", authGoogleRoutes);
 app.use("/sessions", sessionRoutes);
 
 const pages = {

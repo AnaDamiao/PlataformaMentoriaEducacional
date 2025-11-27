@@ -153,33 +153,60 @@ document.addEventListener("DOMContentLoaded", async () => {
             const btn = document.createElement("button");
             btn.classList.add("time-slot-btn");
             btn.textContent = horario;
-            btn.addEventListener("click", () => confirmarAgendamento(dateStr, horario));
+            btn.addEventListener("click", () => {
+                const dateISO = date.toISOString().split("T")[0];
+                confirmarAgendamento(dateISO, horario); 
+            });
             horariosContainer.appendChild(btn);
         });
 
         scheduleModal.style.display = "flex";
     }
 
-    function confirmarAgendamento(data, hora) {
+    async function confirmarAgendamento(dataBR, hora) {
         const alunoEmail = localStorage.getItem("usuario-logado-email");
         const alunoNome = localStorage.getItem("usuario-logado-nome") || alunoEmail;
 
-        console.log(`Agendando sessão: ${mentorData.nome} e ${alunoNome} - ${data} ${hora}`);
+        // Converter data BR → ISO (yyyy-mm-dd)
+        const dateObj = new Date(dataBR);
+        const dateISO = dateObj.toISOString().split("T")[0];
 
-        const novoAgendamento = criarAgendamento(
+        console.log("Data ISO enviada:", dateISO, "Hora:", hora);
+
+        const res = await fetch("/sessions/create-meet", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            credentials: "include",
+            body: JSON.stringify({
+                mentorId: mentorId,
+                estudanteId: alunoEmail,
+                data: dateISO,
+                hora: hora
+            })
+        });
+
+        const result = await res.json();
+
+        if (!res.ok || !result.meetLink) {
+            alert("Erro ao criar a sessão no Google Meet.");
+            return;
+        }
+
+        criarAgendamento(
             mentorData.email,
             mentorData.nome,
             alunoEmail,
             alunoNome,
-            data,
+            dataBR,
             hora,
-            "https://meet.google.com/ziv-kkmn-ggp" // link fixo
+            result.meetLink
         );
 
         popupConfirmacao.style.display = 'block';
         setTimeout(() => popupConfirmacao.style.display = 'none', 3000);
         scheduleModal.style.display = 'none';
     }
+
 
     prevMonthBtn.addEventListener('click', () => { currentDate.setMonth(currentDate.getMonth()-1); renderCalendar(); });
     nextMonthBtn.addEventListener('click', () => { currentDate.setMonth(currentDate.getMonth()+1); renderCalendar(); });
