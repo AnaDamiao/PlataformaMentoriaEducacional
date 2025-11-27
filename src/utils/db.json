@@ -250,5 +250,21 @@
     }
   ],
   "sessions": [
+    {
+      "id": 1764272446457,
+      "mentorId": "1763664786912",
+      "estudanteId": "damiaoclara2003@gmail.com",
+      "horario": "2025-12-01 18:00",
+      "status": "confirmada",
+      "meetLink": "https://meet.google.com/hew-zxnk-nbf"
+    },
+    {
+      "id": 1764272945145,
+      "mentorId": "1763664786912",
+      "estudanteId": 1763777385572,
+      "horario": "2025-12-01 18:00",
+      "status": "confirmada",
+      "meetLink": "https://meet.google.com/rcf-veov-ydb"
+    }
   ]
 }
