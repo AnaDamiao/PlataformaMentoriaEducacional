@@ -5,6 +5,9 @@ const oauth2Client = require("../google");
 const { google } = require("googleapis");
 const db = require("../utils/localDB");
 
+const path = require("path");
+const fs = require("fs");
+
 exports.addAvailability = async (req, res) => {
   const { mentorId, horario } = req.body;
   const mentor = await User.findOne({ where: { id: mentorId } });
@@ -59,7 +62,13 @@ exports.createMeet = async (req, res) => {
     const { mentorId, estudanteId, data, hora } = req.body;
 
     try {
-        const tokens = require("../google-tokens.json");
+        const tokensPath = path.join(process.cwd(), "google-tokens.json");
+
+        if (!fs.existsSync(tokensPath)) {
+            throw new Error("google-tokens.json não encontrado: " + tokensPath);
+        }
+
+        const tokens = JSON.parse(fs.readFileSync(tokensPath));
         oauth2Client.setCredentials(tokens);
 
         const calendar = google.calendar({ version: "v3", auth: oauth2Client });
@@ -84,7 +93,6 @@ exports.createMeet = async (req, res) => {
 
         const meetLink = response.data.hangoutLink;
 
-        // salvar no db.json
         const session = await Session.create({
             mentorId,
             estudanteId,
