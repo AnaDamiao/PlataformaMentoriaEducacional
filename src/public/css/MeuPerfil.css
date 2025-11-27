@@ -159,6 +159,8 @@ main.container {
     background: #f9f9f9;
     border-radius: 8px;
     box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+    display: flex;
+    flex-direction: row;
 }
 
 /* Sessões com estrelas */
@@ -255,9 +257,24 @@ button#submitAvaliacao:hover {
     transform: translateY(-1px);
 }
 
-/* Garante alinhamento igual dentro de listas e cards */
-.item-agendamento button {
-    margin-left: 4px;
+.item-agendamento {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding: 12px;
+    background: #ffffff;
+    border-radius: 8px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+}
+
+.info-sessao {
+    line-height: 1.5;
+    font-size: 14px;
+}
+
+.btn-excluir {
+    align-self: flex-start;
+    margin-top: 5px;
 }
 
 /* ------------------------------
@@ -433,7 +450,147 @@ a#acaoPerfilBtn.btn:hover {
     color: #000;
 }
 
-/* Animação do modal */
+.modal-confirm {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.55);
+    display: none;
+    justify-content: center;
+    align-items: center;
+    z-index: 1200;
+    animation: fadeIn 0.25s ease-out;
+}
+
+.modal-content-confirm {
+    background: #ffffff;
+    padding: 26px 30px;
+    width: 360px;
+    border-radius: 14px;
+    text-align: center;
+    font-size: 17px;
+    color: #333;
+    box-shadow: 0 8px 28px rgba(0,0,0,0.25);
+    animation: scaleIn 0.25s ease-out;
+}
+
+.modal-content-confirm p {
+    font-size: 18px;
+    font-weight: 600;
+    margin-bottom: 18px;
+}
+
+.modal-buttons {
+    margin-top: 20px;
+    display: flex;
+    justify-content: space-between;
+    gap: 12px;
+}
+
+.btn-vermelho {
+    background: #e63946;
+    color: #fff;
+    padding: 9px 18px;
+    border-radius: 8px;
+    border: none;
+    cursor: pointer;
+    flex: 1;
+    font-weight: bold;
+    transition: 0.2s;
+}
+
+.btn-vermelho:hover {
+    background: #c92d38;
+}
+
+.btn-cancelar {
+    background: #ccc;
+    color: #333;
+    padding: 9px 18px;
+    border-radius: 8px;
+    border: none;
+    cursor: pointer;
+    flex: 1;
+    font-weight: bold;
+    transition: 0.2s;
+}
+
+.btn-cancelar:hover {
+    background: #b9b9b9;
+}
+
+.session-enter-btn {
+    background-color: #28a745;
+    color: #fff;
+    border: none;
+    padding: 5px 12px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: 600;
+    margin-left: 8px;
+    transition: transform 0.12s ease, background-color 0.12s ease;
+}
+.session-enter-btn:hover { 
+    background-color: #218838; 
+    transform: translateY(-2px); 
+}
+
+.btn-cancel-schedule {
+    background-color: #e74c3c;
+    color: #fff;
+    border: none;
+    padding: 6px 10px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: 600;
+}
+.btn-cancel-schedule:hover { 
+    background-color: #c0392b; 
+}
+
+.hist-delete-btn {
+    background-color: #ff6b6b;
+    color: #fff;
+    border: none;
+    padding: 8px 12px;
+    border-radius: 8px;
+    cursor: pointer;
+    align-self: flex-start;
+    margin-top: 10px;
+    font-weight: 600;
+}
+.hist-delete-btn:hover { 
+    background-color: #ff4b4b; 
+    transform: translateY(-1px); 
+}
+
+.sessao-actions {
+    display: flex;
+    gap: 8px;
+    margin-top: 8px;
+    justify-content: flex-end;
+    align-items: center;
+}
+
+@media(min-width:700px){
+    .item-agendamento {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 18px;
+    }
+    .info-sessao { max-width: 70%; }
+}
+
+
+/* Animações */
+@keyframes scaleIn {
+    from { transform: scale(0.85); opacity: 0; }
+    to { transform: scale(1); opacity: 1; }
+}
+
 @keyframes fadeIn {
     from { opacity: 0; transform: translateY(-20px); }
     to { opacity: 1; transform: translateY(0); }

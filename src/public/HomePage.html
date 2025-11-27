@@ -97,7 +97,7 @@
         const lista = document.getElementById("lista-proximas-sessoes");
 
         if (user.role === "mentor") {
-          title.innerText = "Bem-vindo, mentor!";
+          title.innerText = `Bem-vindo, ${user.nome}!`;
           btn.style.display = "none"; // Esconde botão "Explorar Mentores"
           cardMentor.style.display = "block";
 
@@ -121,13 +121,13 @@
 
           // Atualiza sempre que houver mudança no localStorage
           window.addEventListener('storage', atualizarProximasSessoes);
-        } else {
-          title.innerText = "Bem-vindo, aluno!";
-          btn.style.display = "inline-block";
-          btn.textContent = "Explorar Mentores";
-          btn.href = "/listaMentores";
-          cardMentor.style.display = "none";
-        }
+          } else {
+            title.innerText = `Bem-vindo, ${user.nome}!`;
+            btn.style.display = "inline-block";
+            btn.textContent = "Explorar Mentores";
+            btn.href = "/listaMentores";
+            cardMentor.style.display = "none";
+          }
       }
     }
 
