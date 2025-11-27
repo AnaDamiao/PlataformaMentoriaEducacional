@@ -6,10 +6,15 @@
     <title>Meu Perfil - EduMentor</title>
     <link rel="stylesheet" href="./css/meuPerfil.css">
     <link rel="shortcut icon" href="./Favicon/favicon.EM.jpg" type="image/x-icon">
+    <style>
+        /* Garante que o modal de avaliação só possa ser fechado via botão de enviar */
+        #closeAvaliacaoModal {
+            display: none !important; /* Esconde o 'X' (close) por padrão */
+        }
+    </style>
 </head>
 <body>
 
-    <!-- Navbar -->             
     <nav class="navbar">
         <h1 class="logo"><a href="/">EduMentor</a></h1>
         <ul class="menu">
@@ -18,14 +23,13 @@
         </ul>
     </nav>
 
-    <!-- Container Principal -->
     <main class="container">
 
         <section class="perfil-card">
             <h2>Meu Perfil</h2>
 
             <div class="foto-perfil" id="fotoPerfilContainer">
-                <img id="fotoPerfil" src="./img/defaultUser.png" alt="Foto do Usuário">
+                <img id="fotoPerfil" src="" alt="Foto do Usuário">
                 <input type="file" id="fileInput" accept="image/*" style="display: none;">
             </div>
 
@@ -60,7 +64,6 @@
         </section>
     </main>
 
-    <!-- Modal de Avaliação -->
     <div class="modal" id="avaliacaoModal">
         <div class="modal-content">
             <span class="close" id="closeAvaliacaoModal">&times;</span>
