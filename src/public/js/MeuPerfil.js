@@ -45,6 +45,7 @@ async function carregarUsuario() {
     
     // Salva o email logado
     localStorage.setItem("usuario-logado-email", user.email); 
+    localStorage.setItem("usuario-logado-nome", user.nome); 
     
     preencherPerfil(user);
     carregarAgendamentos(user);

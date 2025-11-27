@@ -1,5 +1,12 @@
 // PerfilMentor.js
 document.addEventListener("DOMContentLoaded", async () => {
+
+    async function getUsuarioLogado() {
+        const res = await fetch("/auth/me", { credentials: "include" });
+        if (!res.ok) return null;
+        const data = await res.json();
+        return data.user;
+    }
     // --- Referências do DOM ---
     const mentorNomeElement = document.getElementById("mentorNome");
     const mentorAreaElement = document.getElementById("mentorArea");
@@ -164,14 +171,19 @@ document.addEventListener("DOMContentLoaded", async () => {
     }
 
     async function confirmarAgendamento(dataBR, hora) {
-        const alunoEmail = localStorage.getItem("usuario-logado-email");
-        const alunoNome = localStorage.getItem("usuario-logado-nome") || alunoEmail;
+        const user = await getUsuarioLogado();
 
-        // Converter data BR → ISO (yyyy-mm-dd)
+        if (!user) {
+            alert("Erro ao identificar o aluno.");
+            return;
+        }
+
+        const alunoId = user.id;
+        const alunoEmail = user.email;
+        const alunoNome = user.nome;
+
         const dateObj = new Date(dataBR);
         const dateISO = dateObj.toISOString().split("T")[0];
-
-        console.log("Data ISO enviada:", dateISO, "Hora:", hora);
 
         const res = await fetch("/sessions/create-meet", {
             method: "POST",
@@ -179,7 +191,7 @@ document.addEventListener("DOMContentLoaded", async () => {
             credentials: "include",
             body: JSON.stringify({
                 mentorId: mentorId,
-                estudanteId: alunoEmail,
+                estudanteId: alunoId,
                 data: dateISO,
                 hora: hora
             })
@@ -206,6 +218,7 @@ document.addEventListener("DOMContentLoaded", async () => {
         setTimeout(() => popupConfirmacao.style.display = 'none', 3000);
         scheduleModal.style.display = 'none';
     }
+
 
 
     prevMonthBtn.addEventListener('click', () => { currentDate.setMonth(currentDate.getMonth()-1); renderCalendar(); });
